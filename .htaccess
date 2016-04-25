@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /members/bookpullv2/api/
+RewriteRule . api.php [L]
+</IfModule>
