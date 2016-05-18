@@ -21,12 +21,14 @@ function get_dbh() {
 function work_list() {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_name`, `article_name`, `volume`, `issue`,`comments` FROM `article_author`');
+        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`,`comments` FROM `article_author`');
     $stmt->execute();
 
     $result = array();
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
+            id          => $row['author_code'],
+            type        => 'work',
             author      => $row['author_name'],
             title       => $row['article_name'],
             volume      => $row['volume'],
@@ -35,7 +37,9 @@ function work_list() {
         );
     }
 
-    return $result;
+    return array(
+        data => $result
+    );
 }
 
 function work_get($id) {
@@ -47,12 +51,15 @@ function work_get($id) {
     $stmt->execute();
     if ($row = $stmt->fetch()) {
         return array(
-            id          => $row['author_code'],
-            author      => $row['author_name'],
-            title       => $row['article_name'],
-            volume      => $row['volume'],
-            issue       => $row['issue'],
-            comments    => $row['comments']
+            data    =>  array(
+                id          => $row['author_code'],
+                type        => 'work',
+                author      => $row['author_name'],
+                title       => $row['article_name'],
+                volume      => $row['volume'],
+                issue       => $row['issue'],
+                comments    => $row['comments']
+            )
         );
     } else {
         throw new Exception('Invalid work', 404);
@@ -71,7 +78,10 @@ function work_insert($author, $title, $volume, $issue, $comments) {
     $stmt->bindValue(5, $comments, PDO::PARAM_STR);
     $stmt->execute();
     return array(
-        id => $dbh->lastInsertId()
+        data    =>  array(
+            id          => $dbh->lastInsertId(),
+            type        => 'work'
+        )
     );
 }
 
@@ -110,17 +120,25 @@ function source_list($author_id) {
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
             id          => $row['id'],
-            author_id   => $author_id,
+            type        => 'source',
             type        => $row['type'],
             citation    => $row['citation'],
             url         => $row['url'],
             comments    => $row['comments'],
             ordered     => $row['ordered'],
             status      => $row['status_code']
+            relationships   => array(
+                data        => array(
+                    type    => 'work',
+                    id      => $author_id
+                )
+            )
         );
     }
 
-    return $result;
+    return array(
+        data    =>  $result
+    );
 }
 
 function source_get($id) {
@@ -132,14 +150,22 @@ function source_get($id) {
     $stmt->execute();
     if ($row = $stmt->fetch()) {
         return array(
-            id          => $id,
-            author_id   => $row['author_code'],
-            type        => $row['type'],
-            citation    => $row['citation'],
-            url         => $row['url'],
-            comments    => $row['comments'],
-            ordered     => $row['ordered'],
-            status      => $row['status_code']
+            data     => array(
+                id              => $id,
+                type            => 'source',
+                type            => $row['type'],
+                citation        => $row['citation'],
+                url             => $row['url'],
+                comments        => $row['comments'],
+                ordered         => $row['ordered'],
+                status          => $row['status_code']
+                relationships   => array(
+                    data        => array(
+                        type    => 'work',
+                        id      => $row['author_code']
+                    )
+                )
+            )
         );
     } else {
         throw new Exception('Invalid source', 404);
@@ -159,7 +185,12 @@ function source_insert($author_id, $type, $citation, $url, $comments, $ordered, 
     $stmt->bindValue(6, $ordered, PDO::PARAM_STR);
     $stmt->bindValue(7, $status, PDO::PARAM_STR);
     $stmt->execute();
-    return true;
+    return array(
+        data    =>  array(
+            id          => $dbh->lastInsertId(),
+            type        => 'source'
+        )
+    );
 }
 
 function source_modify($id, $author_id, $type, $citation, $url, $comments, $ordered, $status) {
