@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ebookpull',
     environment: environment,
-    baseURL: '/',
+    baseURL: '/members/bookpull/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
