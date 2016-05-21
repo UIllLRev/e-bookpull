@@ -14,8 +14,10 @@ function db_connect($connection_string, $user, $pass) {
 
 function get_dbh() {
     global $config;
-    return db_connect($config['db_connection_string'], $config['db_username'],
+    $dbh = db_connect($config['db_connection_string'], $config['db_username'],
         $config['db_password']);
+    $dbh->query("SET sql_mode='TRADITIONAL'");
+    return $dbh;
 }
 
 function work_list() {
@@ -29,11 +31,13 @@ function work_list() {
         $result[] = array(
             id          => $row['author_code'],
             type        => 'work',
-            author      => $row['author_name'],
-            title       => $row['article_name'],
-            volume      => $row['volume'],
-            issue       => $row['issue'],
-            comments    => $row['comments']
+            attributes  => array(
+                author      => $row['author_name'],
+                title       => $row['article_name'],
+                volume      => $row['volume'],
+                issue       => $row['issue'],
+                comments    => $row['comments']
+            )
         );
     }
 
@@ -54,11 +58,13 @@ function work_get($id) {
             data    =>  array(
                 id          => $row['author_code'],
                 type        => 'work',
-                author      => $row['author_name'],
-                title       => $row['article_name'],
-                volume      => $row['volume'],
-                issue       => $row['issue'],
-                comments    => $row['comments']
+                attributes  => array(
+                    author      => $row['author_name'],
+                    title       => $row['article_name'],
+                    volume      => $row['volume'],
+                    issue       => $row['issue'],
+                    comments    => $row['comments']
+                )
             )
         );
     } else {
@@ -108,12 +114,11 @@ function work_delete($id) {
     return true;
 }
 
-function source_list($author_id) {
+function source_list() {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `id`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
-       .' FROM `sources` WHERE `author_code` = ?');
-    $stmt->bindValue(1, $author_id, PDO::PARAM_INT);
+       .' FROM `sources`');
     $stmt->execute();
 
     $result = array();
@@ -121,12 +126,14 @@ function source_list($author_id) {
         $result[] = array(
             id          => $row['id'],
             type        => 'source',
-            type        => $row['type'],
-            citation    => $row['citation'],
-            url         => $row['url'],
-            comments    => $row['comments'],
-            ordered     => $row['ordered'],
-            status      => $row['status_code']
+            attributes  => array(
+                type        => $row['type'],
+                citation    => $row['citation'],
+                url         => $row['url'],
+                comments    => $row['comments'],
+                ordered     => $row['ordered'],
+                status      => $row['status_code']
+            ),
             relationships   => array(
                 data        => array(
                     type    => 'work',
@@ -153,12 +160,14 @@ function source_get($id) {
             data     => array(
                 id              => $id,
                 type            => 'source',
-                type            => $row['type'],
-                citation        => $row['citation'],
-                url             => $row['url'],
-                comments        => $row['comments'],
-                ordered         => $row['ordered'],
-                status          => $row['status_code']
+                attributes      => array(
+                    type            => $row['type'],
+                    citation        => $row['citation'],
+                    url             => $row['url'],
+                    comments        => $row['comments'],
+                    ordered         => $row['ordered'],
+                    status          => $row['status_code']
+                ),
                 relationships   => array(
                     data        => array(
                         type    => 'work',
@@ -226,12 +235,10 @@ function parse_request_uri($uri) {
     }
 
     $matches = array();
-    if (preg_match('/^(work)(\/([0-9]+)(\/(source)(\/([0-9]+))?)?)?$/', $uri, $matches)) {
+    if (preg_match('/^(works|sources)(\/([0-9]+))?$/', $uri, $matches)) {
         return array(
             resource_type   => $matches[1],
             resource_id     => $matches[3],
-            subresource_type=> $matches[5],
-            subresource_id  => $matches[7]
         );
     } else {
         throw new Exception('Invalid request', 400);
@@ -239,81 +246,74 @@ function parse_request_uri($uri) {
 }
 
 function handle_request($params) {
-    if ($params['subresource_type'] != null) {
-        switch ($params['subresource_type']) {
-        case 'source':
-            if ($params['subresource_id'] != null) {
-                switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET':
-                    $res = source_get($params['subresource_id']);
-                    break;
-                case 'PUT':
-                    $res = source_modify($params['subresource_id'], $_REQUEST['name'],
-                        $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
-                        $_REQUEST['comment']);
-                    break;
-                case 'DELETE':
-                    $res = source_delete($params['subresource_id']);
-                    break;
-                default:
-                    throw new Exception('Invalid method', 400);
-                }
-            } else {
-                switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET':
-                    $res = source_list($params['resource_id']);
-                    break;
-                case 'POST':
-                    $res = source_insert($params['resource_id'], $_REQUEST['type'], $_REQUEST['citation'],
-                        $_REQUEST['url'], $_REQUEST['comments'], $_REQUEST['ordered'], $_REQUEST['status']);
-                    break;
-                default:
-                    throw new Exception('Invalid method', 400);
-                }
+    switch($params['resource_type']) {
+    case 'works':
+        if ($params['resource_id'] != null) {
+            switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $res = work_get($params['resource_id']);
+                break;
+            case 'PATCH':
+                $res = work_modify($params['resource_id'], $_REQUEST['name'],
+                    $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
+                    $_REQUEST['comment']);
+                break;
+            case 'DELETE':
+                $res = work_delete($params['resource_id']);
+                break;
+            default:
+                throw new Exception('Invalid method', 400);
             }
-            break;
-        default:
-            throw new Exception('Invalid resource', 400);
-        }
-    } else {
-        switch($params['resource_type']) {
-        case 'work':
-            if ($params['resource_id'] != null) {
-                switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET':
-                    $res = work_get($params['resource_id']);
+        } else {
+            switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $res = work_list();
+                break;
+            case 'POST':
+                switch ($params['resource_type']) {
+                case 'work':
+                    $res = work_insert($_REQUEST['name'], $_REQUEST['title'],
+                        $_REQUEST['year'], $_REQUEST['issue'], $_REQUEST['comment']);
                     break;
-                case 'PUT':
-                    $res = work_modify($params['resource_id'], $_REQUEST['name'],
-                        $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
-                        $_REQUEST['comment']);
-                    break;
-                case 'DELETE':
-                    $res = work_delete($params['resource_id']);
-                    break;
+                }
                 default:
                     throw new Exception('Invalid method', 400);
-                }
-            } else {
-                switch ($_SERVER['REQUEST_METHOD']) {
-                case 'GET':
-                    $res = work_list();
-                    break;
-                case 'POST':
-                    switch ($params['resource_type']) {
-                    case 'work':
-                        $res = work_insert($_REQUEST['name'], $_REQUEST['title'],
-                            $_REQUEST['year'], $_REQUEST['issue'], $_REQUEST['comment']);
+            }
+        }
+        break;
+            case 'sources':
+                if ($params['resource_id'] != null) {
+                    switch ($_SERVER['REQUEST_METHOD']) {
+                    case 'GET':
+                        $res = source_get($params['resource_id']);
                         break;
+                    case 'PATCH':
+                        $res = source_modify($params['resource_id'], $_REQUEST['name'],
+                            $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
+                            $_REQUEST['comment']);
+                        break;
+                    case 'DELETE':
+                        $res = source_delete($params['resource_id']);
+                        break;
+                    default:
+                        throw new Exception('Invalid method', 400);
                     }
-                default:
-                    throw new Exception('Invalid method', 400);
+                } else {
+                    switch ($_SERVER['REQUEST_METHOD']) {
+                    case 'GET':
+                        $res = source_list();
+                        break;
+                    case 'POST':
+                        $res = source_insert($params['resource_id'], $_REQUEST['type'], $_REQUEST['citation'],
+                            $_REQUEST['url'], $_REQUEST['comments'], $_REQUEST['ordered'], $_REQUEST['status']);
+                        break;
+                    default:
+                        throw new Exception('Invalid method', 400);
+                    }
                 }
-            }
-            break;
-        default:
-            throw new Exception('Invalid resource type', 400);
-        }
+                break;
+                    default:
+                        throw new Exception('Invalid resource type', 400);
     }
 
     header('HTTP/1.1 200 OK');
