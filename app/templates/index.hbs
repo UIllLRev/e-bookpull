@@ -1,1 +1,25 @@
-{{outlet}}
+<table class="mdl-data-table mdl-js-data-table">
+<thead>
+<tr>
+<th class="mdl-data-table__cell--non-numeric">Author</th>
+<th class="mdl-data-table__cell--non-numeric">Title</th>
+<th>Volume</th>
+<th>Issue</th>
+<th class="mdl-data-table__cell--non-numeric">Comments</th>
+<th class="mdl-data-table__cell--non-numeric"></th>
+</tr>
+</thead>
+<tbody>
+{{#each sorted as |work|}}
+<tr>
+<td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
+<td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
+<td>{{work.volume}}</td>
+<td>{{work.issue}}</td>
+<td class="mdl-data-table__cell--non-numeric">{{work.comments}}</td>
+<td>{{#link-to 'work' work tagName="button" class="mdl-button mdl-button-js mdl-button--raised
+mdl-button--colored"}} Open {{/link-to}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
