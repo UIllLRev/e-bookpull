@@ -1,12 +1,21 @@
-<table>
-<tr><th>Author</th><th>Title</th><th>Volume</th><th>Issue</th><th>Comments</th></tr>
+<table class="mdl-data-table mdl-js-data-table">
+<thead>
+<tr>
+<th class="mdl-data-table__cell--non-numeric">Author</th>
+<th class="mdl-data-table__cell--non-numeric">Title</th>
+<th>Volume</th>
+<th>Issue</th>
+<th class="mdl-data-table__cell--non-numeric">Comments</th></tr>
+</thead>
+<tbody>
 {{#each sorted as |work|}}
 <tr>
-<td>{{work.author}}</td>
-<td>{{work.title}}</td>
+<td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
+<td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
 <td>{{work.volume}}</td>
 <td>{{work.issue}}</td>
-<td>{{work.comments}}</td>
+<td class="mdl-data-table__cell--non-numeric">{{work.comments}}</td>
 </tr>
 {{/each}}
+</tbody>
 </table>
