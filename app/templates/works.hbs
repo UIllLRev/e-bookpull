@@ -1,11 +1,12 @@
-<ul>
-{{#each model as |work|}}
-<li>
-{{work.author}}
-{{work.title}}
-{{work.volume}}
-{{work.issue}}
-{{work.comments}}
-</li>
+<table>
+<tr><th>Author</th><th>Title</th><th>Volume</th><th>Issue</th><th>Comments</th></tr>
+{{#each sorted as |work|}}
+<tr>
+<td>{{work.author}}</td>
+<td>{{work.title}}</td>
+<td>{{work.volume}}</td>
+<td>{{work.issue}}</td>
+<td>{{work.comments}}</td>
+</tr>
 {{/each}}
-</ul>
+</table>
