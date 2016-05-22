@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-    sortBy: ['volume', 'issue', 'author'],
+    sortBy: ['author'],
     sorted: Ember.computed.sort('model', 'sortBy')
 });
