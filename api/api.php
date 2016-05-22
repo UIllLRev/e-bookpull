@@ -53,7 +53,15 @@ function work_get($id) {
        .' FROM `article_author` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id);
     $stmt->execute();
+    $sources = source_list_by_work($id);
     if ($row = $stmt->fetch()) {
+        $rels = array();
+        foreach ($sources['data'] as $source) {
+            $rels[] = array(
+                type    => 'source',
+                id      => $source['id']
+            );
+        }
         return array(
             data    =>  array(
                 id          => $row['author_code'],
@@ -65,7 +73,8 @@ function work_get($id) {
                     issue       => $row['issue'],
                     comments    => $row['comments']
                 )
-            )
+            ),
+            included    => $sources['data']
         );
     } else {
         throw new Exception('Invalid work', 404);
@@ -119,6 +128,41 @@ function source_list() {
     $stmt = $dbh->prepare(
         'SELECT `id`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
        .' FROM `sources`');
+    $stmt->execute();
+
+    $result = array();
+    foreach($stmt->fetchAll() as $row) {
+        $result[] = array(
+            id          => $row['id'],
+            type        => 'source',
+            attributes  => array(
+                type        => $row['type'],
+                citation    => $row['citation'],
+                url         => $row['url'],
+                comments    => $row['comments'],
+                ordered     => $row['ordered'],
+                status      => $row['status_code']
+            ),
+            relationships   => array(
+                data        => array(
+                    type    => 'work',
+                    id      => $author_id
+                )
+            )
+        );
+    }
+
+    return array(
+        data    =>  $result
+    );
+}
+
+function source_list_by_work($work_id) {
+    $dbh = get_dbh();
+    $stmt = $dbh->prepare(
+        'SELECT `id`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
+       .' FROM `sources` WHERE `author_code` = ?');
+    $stmt->bindValue(1, $work_id, PDO::PARAM_INT);
     $stmt->execute();
 
     $result = array();
