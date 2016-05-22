@@ -126,7 +126,7 @@ function work_delete($id) {
 function source_list() {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `id`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
+        'SELECT `id`, `author_code`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
        .' FROM `sources`');
     $stmt->execute();
 
@@ -146,7 +146,7 @@ function source_list() {
             relationships   => array(
                 data        => array(
                     type    => 'work',
-                    id      => $author_id
+                    id      => $row['author_code']
                 )
             )
         );
@@ -181,7 +181,7 @@ function source_list_by_work($work_id) {
             relationships   => array(
                 data        => array(
                     type    => 'work',
-                    id      => $author_id
+                    id      => $work_id
                 )
             )
         );
