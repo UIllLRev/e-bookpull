@@ -1,0 +1,32 @@
+<table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
+<thead>
+<th class="mdl-data-table__cell--non-numeric">Citation</th>
+<th class="mdl-data-table__cell--non-numeric">URL</th>
+<th class="mdl-data-table__cell--non-numeric">Ordered</th>
+<th class="mdl-data-table__cell--non-numeric">Comments</th>
+<th class="mdl-data-table__cell--non-numeric">Status</th>
+</thead>
+<tbody>
+{{#each category as |source|}}
+<tr>
+<td class="mdl-data-table__cell--non-numeric" style="white-space:normal">
+{{source.citation}}
+</td>
+<td class="mdl-data-table__cell--non-numeric">
+{{#if source.url}}
+<a href="{{source.url}}">Link</a>
+{{/if}}
+</td>
+<td>
+{{source.ordered}}
+</td>
+<td class="mdl-data-table__cell--non-numeric">
+{{source.comments}}
+</td>
+<td>
+{{source.status}}
+</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
