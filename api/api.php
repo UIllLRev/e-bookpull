@@ -26,6 +26,21 @@ function work_list() {
         'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`,`comments` FROM `article_author`');
     $stmt->execute();
 
+    $stmt2 = $dbh->prepare('SELECT `id`, `author_code` FROM `sources`');
+    $stmt2->execute();
+
+    $sources = array();
+    foreach ($stmt2->fetchAll() as $source) {
+        if (!isset($sources[$source['author_code']])) {
+            $sources[$source['author_code']] = array();
+        }
+
+        $sources[$source['author_code']][] = array(
+            id      => $source['id'],
+            type    => 'source'
+        );
+    }
+
     $result = array();
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
@@ -37,6 +52,11 @@ function work_list() {
                 volume      => $row['volume'],
                 issue       => $row['issue'],
                 comments    => $row['comments']
+            ),
+            relationships   => array(
+                sources     => array(
+                    data        => $sources[$row['author_code']]
+                )
             )
         );
     }
@@ -72,6 +92,11 @@ function work_get($id) {
                     volume      => $row['volume'],
                     issue       => $row['issue'],
                     comments    => $row['comments']
+                ),
+                relationships   => array(
+                    sources     => array(
+                        data    => $rels
+                    )
                 )
             ),
             included    => $sources['data']
@@ -177,9 +202,11 @@ function source_list() {
                 status      => $row['status_code']
             ),
             relationships   => array(
-                data        => array(
-                    type    => 'work',
-                    id      => $row['author_code']
+                work        => array(
+                    data        => array(
+                        type    => 'work',
+                        id      => $row['author_code']
+                    )
                 )
             )
         );
@@ -212,9 +239,11 @@ function source_list_by_work($work_id) {
                 status      => $row['status_code']
             ),
             relationships   => array(
-                data        => array(
-                    type    => 'work',
-                    id      => $work_id
+                work        => array(
+                    data        => array(
+                        type    => 'work',
+                        id      => $work_id
+                    )
                 )
             )
         );
@@ -246,9 +275,11 @@ function source_get($id) {
                     status          => $row['status_code']
                 ),
                 relationships   => array(
-                    data        => array(
-                        type    => 'work',
-                        id      => $row['author_code']
+                    work        => array(
+                        data        => array(
+                            type    => 'work',
+                            id      => $row['author_code']
+                        )
                     )
                 )
             )
