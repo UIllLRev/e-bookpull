@@ -100,18 +100,51 @@ function work_insert($author, $title, $volume, $issue, $comments) {
     );
 }
 
-function work_modify($id, $author, $title, $volume, $issue, $comments) {
-    $dbh = get_dbh();
-    $stmt = $dbh->prepare(
-        'UPDATE `article_author` SET `author_name` = ?, `article_name` = ?, `volume` = ?, `issue` = ?, `comments` = ?'
-       .' WHERE `author_code` = ?');
-    $stmt->bindValue(1, $author, PDO::PARAM_STR);
-    $stmt->bindValue(2, $title, PDO::PARAM_STR);
-    $stmt->bindValue(3, $volume, PDO::PARAM_INT);
-    $stmt->bindValue(4, $issue, PDO::PARAM_INT);
-    $stmt->bindValue(5, $comments, PDO::PARAM_STR);
-    $stmt->bindValue(6, $id, PDO::PARAM_INT);
-    $stmt->execute();
+function work_modify($id, $data) {
+    if ($data['type'] != 'work' || !isset($data['id'])) {
+        throw new Exception('Invalid work, 400');
+    }
+
+    if (isset($data['attributes'])) {
+        $params = array();
+        $vals = array();
+        if (array_key_exists('author', $data['attributes'])) {
+            $params[] = ' `author_name` = ?';
+            $vals[] = $data['attributes']['author'];
+        }
+        if (array_key_exists('title', $data['attributes'])) {
+            $params[] = ' `article_name` = ?';
+            $vals[] = $data['attributes']['title'];
+        }
+        if (array_key_exists('volume', $data['attributes'])) {
+            $params[] = ' `volume` = ?';
+            $vals[] = $data['attributes']['volume'];
+        }
+        if (array_key_exists('issue', $data['attributes'])) {
+            $params[] = ' `issue` = ?';
+            $vals[] = $data['attributes']['issue'];
+        }
+        if (array_key_exists('comments', $data['attributes'])) {
+            $params[] = ' `comments` = ?';
+            $vals[] = $data['attributes']['comments'];
+        }
+
+        $dbh = get_dbh();
+        $stmt = $dbh->prepare(
+            'UPDATE `article_author` SET'
+            . join(',', $params)
+            .' WHERE `author_code` = ?');
+
+        $value_no = 1;
+        foreach ($vals as $val) {
+            $stmt->bindValue($value_no++, $val);
+        }
+        $stmt->bindValue($value_no, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception('Could not update work', 500);
+        }
+    }
     return true;
 }
 
@@ -289,7 +322,7 @@ function parse_request_uri($uri) {
     }
 }
 
-function handle_request($params) {
+function handle_request($params, $data) {
     switch($params['resource_type']) {
     case 'works':
         if ($params['resource_id'] != null) {
@@ -297,10 +330,8 @@ function handle_request($params) {
             case 'GET':
                 $res = work_get($params['resource_id']);
                 break;
-            case 'PATCH':
-                $res = work_modify($params['resource_id'], $_REQUEST['name'],
-                    $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
-                    $_REQUEST['comment']);
+            case 'POST':
+                $res = work_modify($params['resource_id'], $data);
                 break;
             case 'DELETE':
                 $res = work_delete($params['resource_id']);
@@ -360,13 +391,25 @@ function handle_request($params) {
                         throw new Exception('Invalid resource type', 400);
     }
 
-    header('HTTP/1.1 200 OK');
-    header('Content-type: text/json; charset=utf-8');
-    print json_encode($res);
+    if (is_bool($res) && $res) {
+        header('HTTP/1.1 204 No Content');
+    } else {
+        header('HTTP/1.1 200 OK');
+        header('Content-type: text/json; charset=utf-8');
+        print json_encode($res);
+    }
 }
 
 try {
-    handle_request(parse_request_uri($_SERVER['REQUEST_URI']));
+    // For anything other than POST, PHP only allows access to request body through php://input.
+    // But php://input is not available if allow_url_fopen is disabled in php.ini.
+    // That's PHP Quality(tm).
+    // So instead we break with the jsonapi.org spec and use POST for updates.
+    if (isset($HTTP_RAW_POST_DATA)) {
+        $input = json_decode($HTTP_RAW_POST_DATA, true);
+    }
+
+    handle_request(parse_request_uri($_SERVER['REQUEST_URI']), isset($input) ? $input['data']: null);
 } catch (Exception $e) {
     if ($e->getCode == 400) {
         header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
