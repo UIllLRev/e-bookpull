@@ -10,6 +10,7 @@ Router.map(function() {
     this.route('edit');
     this.route('sources');
   });
+  this.route('source', { path: 'source/:source_id' });
 });
 
 export default Router;
