@@ -127,7 +127,7 @@ function work_insert($author, $title, $volume, $issue, $comments) {
 
 function work_modify($id, $data) {
     if ($data['type'] != 'work' || !isset($data['id'])) {
-        throw new Exception('Invalid work, 400');
+        throw new Exception('Invalid work', 400);
     }
 
     if (isset($data['attributes'])) {
@@ -310,21 +310,54 @@ function source_insert($author_id, $type, $citation, $url, $comments, $ordered, 
     );
 }
 
-function source_modify($id, $author_id, $type, $citation, $url, $comments, $ordered, $status) {
-    $dbh = get_dbh();
-    $stmt = $dbh->prepare('UPDATE `sources`'
-        .'SET `author_code` = ?, `type` = ?, `citation` = ?,'
-        .' `url` = ?, `comments` = ?, `ordered` = ?, `status_code` = ?'
-        .' WHERE `id` = ?');
-    $stmt->bindValue(1, $author_id, PDO::PARAM_INT);
-    $stmt->bindValue(2, $type, PDO::PARAM_STR);
-    $stmt->bindValue(3, $citation, PDO::PARAM_STR);
-    $stmt->bindValue(4, $url, PDO::PARAM_STR);
-    $stmt->bindValue(5, $comments, PDO::PARAM_STR);
-    $stmt->bindValue(6, $ordered, PDO::PARAM_STR);
-    $stmt->bindValue(7, $status, PDO::PARAM_STR);
-    $stmt->bindValue(8, $id, PDO::PARAM_INT);
-    $stmt->execute();
+function source_modify($id, $data) {
+    if ($data['type'] != 'source' || !isset($data['id'])) {
+        throw new Exception('Invalid source', 400);
+    }
+
+    if (isset($data['attributes'])) {
+        $params = array();
+        $vals = array();
+        if (array_key_exists('type', $data['attributes'])) {
+            $params[] = ' `type` = ?';
+            $vals[] = $data['attributes']['type'];
+        }
+        if (array_key_exists('citation', $data['attributes'])) {
+            $params[] = ' `citation` = ?';
+            $vals[] = $data['attributes']['citation'];
+        }
+        if (array_key_exists('url', $data['attributes'])) {
+            $params[] = ' `url` = ?';
+            $vals[] = $data['attributes']['url'];
+        }
+        if (array_key_exists('comments', $data['attributes'])) {
+            $params[] = ' `comments` = ?';
+            $vals[] = $data['attributes']['comments'];
+        }
+        if (array_key_exists('ordered', $data['attributes'])) {
+            $params[] = ' `ordered` = ?';
+            $vals[] = $data['attributes']['ordered'];
+        }
+        if (array_key_exists('status', $data['attributes'])) {
+            $params[] = ' `status_code` = ?';
+            $vals[] = $data['attributes']['status'];
+        }
+        $dbh = get_dbh();
+        $stmt = $dbh->prepare(
+            'UPDATE `sources` SET'
+            . join(',', $params)
+            .' WHERE `id` = ?');
+
+        $value_no = 1;
+        foreach ($vals as $val) {
+            $stmt->bindValue($value_no++, $val);
+        }
+        $stmt->bindValue($value_no, $id);
+
+        if (!$stmt->execute()) {
+            throw new Exception('Could not update source', 500);
+        }
+    }
     return true;
 }
 
@@ -393,10 +426,8 @@ function handle_request($params, $data) {
                     case 'GET':
                         $res = source_get($params['resource_id']);
                         break;
-                    case 'PATCH':
-                        $res = source_modify($params['resource_id'], $_REQUEST['name'],
-                            $_REQUEST['title'], $_REQUEST['year'], $_REQUEST['issue'],
-                            $_REQUEST['comment']);
+                    case 'POST':
+                        $res = source_modify($params['resource_id'], $data);
                         break;
                     case 'DELETE':
                         $res = source_delete($params['resource_id']);
