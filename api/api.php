@@ -170,7 +170,7 @@ function work_modify($id, $data) {
             throw new Exception('Could not update work', 500);
         }
     }
-    return true;
+    return work_get($id);
 }
 
 function work_delete($id) {
@@ -358,7 +358,7 @@ function source_modify($id, $data) {
             throw new Exception('Could not update source', 500);
         }
     }
-    return true;
+    return source_get($id);
 }
 
 function source_delete($id) {
