@@ -1,0 +1,28 @@
+<form>
+<table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
+<tbody>
+<tr><th>Author</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.author class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Title</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.title class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Volume</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.volume class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Issue</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.issue class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Comments</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{textarea value=model.comments class="mdl-textfield__input"}}
+</div></td></tr>
+</tbody>
+</table>
+{{#mdl-button action="save"}}Add{{/mdl-button}}
+</form>
+{{outlet}}

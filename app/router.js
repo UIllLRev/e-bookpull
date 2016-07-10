@@ -11,6 +11,7 @@ Router.map(function() {
     this.route('sources');
     this.route('source', { path: 'source/:source_id' });
   });
+  this.route('add_work');
 });
 
 export default Router;

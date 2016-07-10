@@ -7,5 +7,8 @@ export default Ember.Route.extend({
             this.transitionTo('index');
             return false;
         }
+    },
+    model: function() {
+        return this.store.createRecord('work');
     }
 });
