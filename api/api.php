@@ -410,11 +410,12 @@ function handle_request($params, $data) {
                 break;
             case 'POST':
                 switch ($params['resource_type']) {
-                case 'work':
+                case 'works':
                     $res = work_insert($_REQUEST['name'], $_REQUEST['title'],
                         $_REQUEST['year'], $_REQUEST['issue'], $_REQUEST['comment']);
                     break;
                 }
+                break;
                 default:
                     throw new Exception('Invalid method', 400);
             }
