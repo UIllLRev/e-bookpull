@@ -1,34 +1,36 @@
 <dialog class="mdl-dialog">
-<h4 class="mdl-dialog__title">{{title}}</h4>
+<h4 class="mdl-dialog__title">Edit Source</h4>
 <div class="mdl-dialog__content">
 <form>
-<table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
-<tbody>
-<tr><th>Citation</th>
-<td><div class="mdl-textfield mdl-js-textfield">
-{{input value=model.citation class="mdl-textfield__input"}}
-</div></td></tr>
-<tr><th>URL</th>
-<td><div class="mdl-textfield mdl-js-textfield">
-{{input value=model.url class="mdl-textfield__input"}}
-</div></td></tr>
-<tr><th>Ordered</th>
-<td><div class="mdl-textfield mdl-js-textfield">
-{{input value=model.ordered class="mdl-textfield__input"}}
-</div></td></tr>
-<tr><th>Comments</th>
-<td><div class="mdl-textfield mdl-js-textfield">
-{{textarea value=model.comments class="mdl-textfield__input"}}
-</div></td></tr>
-<tr><th>Status</th>
-<td><div class="mdl-textfield mdl-js-textfield">
-{{#power-select selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
+<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+{{textarea id="citation" value=model.citation class="mdl-textfield__input"}}
+<label class="mdl-textfield__label" for="citation">Citation</label>
+</div>
+<div class="mdl-textfield mdl-js-textfield">
+{{input id="url" value=model.url class="mdl-textfield__input"}}
+<label class="mdl-textfield__label" for="url">URL</label>
+</div>
+<div class="mdl-textfield mdl-js-textfield">
+{{file-upload id="upload" url="/members/bookpull/upload"}}
+<label class="mdl-textfield__label" for="upload">Upload File</label>
+</div>
+<div class="mdl-textfield mdl-js-textfield">
+{{input id="ordered" value=model.ordered class="mdl-textfield__input"}}
+<label class="mdl-textfield__label" for="ordered">Ordered</label>
+</div>
+<div class="mdl-textfield mdl-js-textfield">
+{{textarea id="comments" value=model.comments class="mdl-textfield__input"}}
+<label class="mdl-textfield__label" for="comments">Comments</label>
+</div>
+<div class="mdl-textfield mdl-js-textfield">
+{{#power-select id="status" renderInPlace=true selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
 {{source-status name}}
 {{/power-select}}
-</div></td></tr>
-</tbody>
-</table>
+<label class="mdl-textfield__label" for="status">Status</label>
+</div>
 </form>
+</div>
+<div class="mdl-dialog__actions">
 {{#mdl-button action='save'}} Save {{/mdl-button}}
 {{#mdl-button action='close'}} Cancel {{/mdl-button}}
 </div>

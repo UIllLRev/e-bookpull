@@ -24,5 +24,6 @@ export default Ember.Component.extend({
             var dialog = this.$('dialog').get(0);
             dialog.close();
         }
-    }
+    },
+    statuses: ['X', 'E', 'XP', 'XR', 'M', 'R']
 });
