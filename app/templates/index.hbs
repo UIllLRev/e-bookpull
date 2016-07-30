@@ -1,3 +1,4 @@
+{{work-dialog}}
 <table class="mdl-data-table mdl-js-data-table">
 <thead>
 <tr>
@@ -13,8 +14,8 @@
 <tbody>
 {{#each sorted as |work|}}
 <tr>
-<td>{{#link-to 'work.edit' work tagName="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"}} Edit {{/link-to}}</td>
-<td>{{#link-to 'work.sources' work tagName="button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"}} Sources {{/link-to}}</td>
+<td>{{#mdl-button action=(action 'edit' work)}} Edit {{/mdl-button}}</td>
+<td>{{#mdl-link-button 'work.sources' work}} Sources {{/mdl-link-button}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
 <td>{{work.volume}}</td>
@@ -24,4 +25,4 @@
 {{/each}}
 </tbody>
 </table>
-{{#link-to 'add_work' tagName="button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"}} <i class="material-icons">add</i> {{/link-to}}
+{{mdl-fab action=(action 'add')}}

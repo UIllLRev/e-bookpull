@@ -1,0 +1,33 @@
+<dialog class="mdl-dialog">
+<h4 class="mdl-dialog__title">{{title}}</h4>
+<div class="mdl-dialog__content">
+<form>
+<table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
+<tbody>
+<tr><th>Author</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.author class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Title</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.title class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Volume</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.volume class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Issue</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{input value=model.issue class="mdl-textfield__input"}}
+</div></td></tr>
+<tr><th>Comments</th>
+<td><div class="mdl-textfield mdl-js-textfield">
+{{textarea value=model.comments class="mdl-textfield__input"}}
+</div></td></tr>
+</tbody>
+</table>
+</form>
+{{#mdl-button action='save'}} Save {{/mdl-button}}
+{{#mdl-button action='close'}} Close {{/mdl-button}}
+</div>
+</dialog>
