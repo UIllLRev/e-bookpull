@@ -8,7 +8,6 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('work', { path: 'work/:work_id' }, function() {
     this.route('sources');
-    this.route('source', { path: 'source/:source_id' });
   });
 });
 

@@ -1,3 +1,6 @@
+<dialog class="mdl-dialog">
+<h4 class="mdl-dialog__title">{{title}}</h4>
+<div class="mdl-dialog__content">
 <form>
 <table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
 <tbody>
@@ -25,7 +28,8 @@
 </div></td></tr>
 </tbody>
 </table>
-{{file-upload url="/upload"}}
-{{#mdl-button action="save"}}Save{{/mdl-button}}
 </form>
-{{outlet}}
+{{#mdl-button action='save'}} Save {{/mdl-button}}
+{{#mdl-button action='close'}} Cancel {{/mdl-button}}
+</div>
+</dialog>
