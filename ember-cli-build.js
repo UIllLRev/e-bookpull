@@ -21,6 +21,8 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
   app.import("bower_components/dialog-polyfill/dialog-polyfill.css");
   app.import("bower_components/dialog-polyfill/dialog-polyfill.js");
+  app.import("bower_components/material-design-lite/material.min.js");
+  app.import("vendor/mdl-ill.css");
 
   return app.toTree();
 };
