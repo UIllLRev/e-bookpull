@@ -10,6 +10,14 @@ export default Ember.Controller.extend({
         edit(work) {
             this.get('dialogService').showWorkDialog(work);
             return false;
+        },
+        sources(work) {
+           // this forces a reload of the work before entering the work route
+           // this gets all of the sources in one request - WAY faster
+            var _this = this;
+            work.reload().then(function (model) {
+                _this.transitionToRoute('work.sources', model);
+            });
         }
     },
     sortBy: ['author'],

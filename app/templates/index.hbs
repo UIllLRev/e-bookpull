@@ -14,7 +14,7 @@
 {{#each sorted as |work|}}
 <tr>
 <td>{{#mdl-button action=(action 'edit' work)}} Edit {{/mdl-button}}</td>
-<td>{{#mdl-link-button 'work.sources' work}} Sources {{/mdl-link-button}}</td>
+<td>{{#mdl-button action=(action 'sources' work)}} Sources {{/mdl-button}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
 <td>{{work.volume}}</td>
