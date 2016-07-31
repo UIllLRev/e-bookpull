@@ -106,23 +106,52 @@ function work_get($id) {
     }
 }
 
-function work_insert($author, $title, $volume, $issue, $comments) {
+function work_insert($data) {
+    if ($data['type'] != 'work') {
+        throw new Exception('Invalid work', 400);
+    }
+
+    $params = array();
+    $vals = array();
+    if (array_key_exists('author', $data['attributes'])) {
+        $params[] = ' `author_name` ';
+        $vals[] = $data['attributes']['author'];
+    }
+    if (array_key_exists('title', $data['attributes'])) {
+        $params[] = ' `article_name` ';
+        $vals[] = $data['attributes']['title'];
+    }
+    if (array_key_exists('volume', $data['attributes'])) {
+        $params[] = ' `volume` ';
+        $vals[] = $data['attributes']['volume'];
+    }
+    if (array_key_exists('issue', $data['attributes'])) {
+        $params[] = ' `issue` ';
+        $vals[] = $data['attributes']['issue'];
+    }
+    if (array_key_exists('comments', $data['attributes'])) {
+        $params[] = ' `comments` ';
+        $vals[] = $data['attributes']['comments'];
+    }
+
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'INSERT INTO `article_author` (`author_name`, `article_name`, `volume`, `issue`,`comments`)'
-       .' VALUES (?, ?, ?, ?, ?)');
-    $stmt->bindValue(1, $author, PDO::PARAM_STR);
-    $stmt->bindValue(2, $title, PDO::PARAM_STR);
-    $stmt->bindValue(3, $volume, PDO::PARAM_INT);
-    $stmt->bindValue(4, $issue, PDO::PARAM_INT);
-    $stmt->bindValue(5, $comments, PDO::PARAM_STR);
-    $stmt->execute();
-    return array(
-        data    =>  array(
-            id          => $dbh->lastInsertId(),
-            type        => 'work'
-        )
-    );
+    'INSERT INTO `article_author` ('
+        . join(',', $params)
+        .') VALUES ('
+        . join(',', array_slice(array('?', '?', '?', '?', '?'), 0, count($vals)))
+        . ')');
+
+    $value_no = 1;
+    foreach ($vals as $val) {
+        $stmt->bindValue($value_no++, $val);
+    }
+
+    if (!$stmt->execute()) {
+        throw new Exception('Could not insert work', 500);
+    }
+
+    return work_get($dbh->lastInsertId());
 }
 
 function work_modify($id, $data) {
@@ -411,8 +440,7 @@ function handle_request($params, $data) {
             case 'POST':
                 switch ($params['resource_type']) {
                 case 'works':
-                    $res = work_insert($_REQUEST['name'], $_REQUEST['title'],
-                        $_REQUEST['year'], $_REQUEST['issue'], $_REQUEST['comment']);
+                    $res = work_insert($data);
                     break;
                 }
                 break;
