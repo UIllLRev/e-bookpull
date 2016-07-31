@@ -10,6 +10,9 @@ export default Ember.Component.extend({
         this.get('dialogService').registerSourceDialog(this);
     },
     actions: {
+        uploadComplete: function(url) {
+            this.get('model').set('url', url);
+        },
         show: function(work) {
             this.set('model', work);
             var dialog = this.$('dialog').get(0);
