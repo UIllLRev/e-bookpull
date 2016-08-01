@@ -12,6 +12,7 @@ export default Ember.Component.extend({
     actions: {
         uploadComplete: function(url) {
             this.get('model').set('url', url);
+            this.get('model').set('status', 'E');
         },
         show: function(work) {
             var dialog = this.$('dialog').get(0);
