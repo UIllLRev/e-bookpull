@@ -23,7 +23,7 @@ function get_dbh() {
 function work_list() {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`,`comments` FROM `article_author`');
+        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller` FROM `article_author`');
     $stmt->execute();
 
     $stmt2 = $dbh->prepare('SELECT `id`, `author_code` FROM `sources`');
@@ -51,7 +51,8 @@ function work_list() {
                 title       => $row['article_name'],
                 volume      => $row['volume'],
                 issue       => $row['issue'],
-                comments    => $row['comments']
+                comments    => $row['comments'],
+                bookpuller  => $row['bookpuller']
             ),
             relationships   => array(
                 sources     => array(
@@ -69,7 +70,7 @@ function work_list() {
 function work_get($id) {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`,`comments`'
+        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller`'
        .' FROM `article_author` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id);
     $stmt->execute();
@@ -91,7 +92,8 @@ function work_get($id) {
                     title       => $row['article_name'],
                     volume      => $row['volume'],
                     issue       => $row['issue'],
-                    comments    => $row['comments']
+                    comments    => $row['comments'],
+                    bookpuller  => $row['bookpuller']
                 ),
                 relationships   => array(
                     sources     => array(
@@ -133,13 +135,17 @@ function work_insert($data) {
         $params[] = ' `comments` ';
         $vals[] = $data['attributes']['comments'];
     }
+    if (array_key_exists('bookpuller', $data['attributes'])) {
+        $params[] = ' `bookpuller` ';
+        $vals[] = $data['attributes']['bookpuller'];
+    }
 
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
     'INSERT INTO `article_author` ('
         . join(',', $params)
         .') VALUES ('
-        . join(',', array_slice(array('?', '?', '?', '?', '?'), 0, count($vals)))
+        . join(',', array_slice(array('?', '?', '?', '?', '?', '?'), 0, count($vals)))
         . ')');
 
     $value_no = 1;
@@ -181,6 +187,10 @@ function work_modify($id, $data) {
         if (array_key_exists('comments', $data['attributes'])) {
             $params[] = ' `comments` = ?';
             $vals[] = $data['attributes']['comments'];
+        }
+        if (array_key_exists('bookpuller', $data['attributes'])) {
+            $params[] = ' `bookpuller` = ?';
+            $vals[] = $data['attributes']['bookpuller'];
         }
 
         $dbh = get_dbh();

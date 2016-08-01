@@ -8,6 +8,7 @@ export default Model.extend({
     volume: attr('number'),
     issue: attr('number'),
     comments: attr('string'),
+    bookpuller: attr('string'),
     sources: hasMany('source')
 });
 
