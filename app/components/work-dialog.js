@@ -11,17 +11,19 @@ export default Ember.Component.extend({
     },
     actions: {
         show: function(work) {
-            this.set('model', work);
             var dialog = this.$('dialog').get(0);
+            this.set('model', work);
             dialog.showModal();
         },
         save: function() {
-            this.get('model').save();
             var dialog = this.$('dialog').get(0);
-            dialog.close();
+            this.get('model').save().then(() => {
+                dialog.close();
+            });
         },
         close: function() {
             var dialog = this.$('dialog').get(0);
+            this.get('model').rollbackAttributes();
             dialog.close();
         }
     }
