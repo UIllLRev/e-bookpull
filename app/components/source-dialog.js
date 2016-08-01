@@ -7,6 +7,9 @@ export default Ember.Component.extend({
         if (! dialog.showModal) {
             dialogPolyfill.registerDialog(dialog);
         }
+        dialog.addEventListener('cancel', () => {
+            this.get('model').rollbackAttributes();
+        });
         this.get('dialogService').registerSourceDialog(this);
     },
     actions: {
