@@ -10,7 +10,7 @@
 <tbody>
 {{#each category as |source|}}
 <tr>
-<td>{{#mdl-button action=(action 'edit' source)}} Edit {{/mdl-button}}</td>
+<td>{{#mdl-button isRaised=true click=(action 'edit' source)}} Edit {{/mdl-button}}</td>
 <td class="mdl-data-table__cell--non-numeric" style="white-space:normal">
 {{source.citation}}
 </td>

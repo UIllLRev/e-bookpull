@@ -13,8 +13,8 @@
 <tbody>
 {{#each sorted as |work|}}
 <tr>
-<td>{{#mdl-button action=(action 'edit' work)}} Edit {{/mdl-button}}</td>
-<td>{{#mdl-button action=(action 'sources' work)}} Sources {{/mdl-button}}</td>
+<td>{{#mdl-button isRaised=true click=(action 'edit' work)}} Edit {{/mdl-button}}</td>
+<td>{{#mdl-button isRaised=true click=(action 'sources' work)}} Sources {{/mdl-button}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
 <td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
 <td>{{work.volume}}</td>
@@ -24,4 +24,4 @@
 {{/each}}
 </tbody>
 </table>
-{{mdl-fab action=(action 'add')}}
+{{mdl-button isFloating=true icon='add' click=(action 'add')}}

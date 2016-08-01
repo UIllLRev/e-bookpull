@@ -2,30 +2,16 @@
 <h4 class="mdl-dialog__title">Edit Work</h4>
 <div class="mdl-dialog__content">
 <form>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{input id="author" value=model.author class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="author">Author</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{input id="title" value=model.title class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="title">Title</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{input id="volume" value=model.volume class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="volume">Volume</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{input id="issue" value=model.issue class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="issue">Issue</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{textarea id="work_comments" value=model.comments class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="work_comments">Comments</label>
-</div>
+{{my-mdl-textfield label='Author' value=model.author}}
+{{my-mdl-textfield label='Title' value=model.title}}
+{{my-mdl-textfield label='Volume' value=model.volume}}
+{{my-mdl-textfield label='Issue' value=model.issue}}
+{{my-mdl-textarea label='Comments' value=model.comments}}
+{{my-mdl-textarea label='Bookpuller' value=model.bookpuller}}
 </form>
 </div>
 <div class="mdl-dialog__actions">
-{{#mdl-button action='save'}} Save {{/mdl-button}}
-{{#mdl-button action='close'}} Cancel {{/mdl-button}}
+{{#mdl-button isRaised=true click=(action 'save')}} Save {{/mdl-button}}
+{{#mdl-button isRaised=true click=(action 'close')}} Cancel {{/mdl-button}}
 </div>
 </dialog>

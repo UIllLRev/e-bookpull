@@ -2,36 +2,20 @@
 <h4 class="mdl-dialog__title">Edit Source</h4>
 <div class="mdl-dialog__content">
 <form>
-<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-{{textarea id="citation" value=model.citation class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="citation">Citation</label>
-</div>
+{{my-mdl-textfield value=model.citation label='Citation'}}
+{{my-mdl-textfield value=model.url label='URL'}}
+{{file-upload label="Upload File" work=model.work action='uploadComplete'}}
+{{my-mdl-textfield value=model.ordered label='Ordered Date'}}
+{{my-mdl-textarea value=model.comments label='Comments'}}
 <div class="mdl-textfield mdl-js-textfield">
-{{input id="url" value=model.url class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="url">URL</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield">
-{{file-upload id="upload" work=model.work action='uploadComplete'}}
-<label class="mdl-textfield__label" for="upload">Upload File</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield">
-{{input id="ordered" value=model.ordered class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="ordered">Ordered</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield">
-{{textarea id="comments" value=model.comments class="mdl-textfield__input"}}
-<label class="mdl-textfield__label" for="comments">Comments</label>
-</div>
-<div class="mdl-textfield mdl-js-textfield">
-{{#power-select id="status" renderInPlace=true selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
+{{#power-select placeholder='Status' renderInPlace=true selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
 {{source-status name}}
 {{/power-select}}
-<label class="mdl-textfield__label" for="status">Status</label>
 </div>
 </form>
 </div>
 <div class="mdl-dialog__actions">
-{{#mdl-button action='save'}} Save {{/mdl-button}}
-{{#mdl-button action='close'}} Cancel {{/mdl-button}}
+{{#mdl-button isRaised=true click=(action 'save')}} Save {{/mdl-button}}
+{{#mdl-button isRaised=true click=(action 'close')}} Cancel {{/mdl-button}}
 </div>
 </dialog>
