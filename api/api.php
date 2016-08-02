@@ -375,7 +375,7 @@ function source_modify($id, $data) {
         }
         if (array_key_exists('ordered', $data['attributes'])) {
             $params[] = ' `ordered` = ?';
-            $vals[] = $data['attributes']['ordered'];
+            $vals[] = date('Y-m-d', strtotime($data['attributes']['ordered']));
         }
         if (array_key_exists('status', $data['attributes'])) {
             $params[] = ' `status_code` = ?';
@@ -394,7 +394,8 @@ function source_modify($id, $data) {
         $stmt->bindValue($value_no, $id);
 
         if (!$stmt->execute()) {
-            throw new Exception('Could not update source', 500);
+            $err = $stmt->errorInfo();
+            throw new Exception('Could not update source:' . $err[2], 500);
         }
     }
     return source_get($id);

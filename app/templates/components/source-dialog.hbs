@@ -5,7 +5,7 @@
 {{my-mdl-textfield value=model.citation label='Citation'}}
 {{my-mdl-textfield value=model.url label='URL'}}
 {{file-upload label="Upload File" work=model.work action='uploadComplete'}}
-{{my-mdl-textfield value=model.ordered label='Ordered Date'}}
+{{mdl-datefield date=model.ordered label='Ordered Date'}}
 {{my-mdl-textarea value=model.comments label='Comments'}}
 <div class="mdl-textfield mdl-js-textfield">
 {{#power-select placeholder='Status' renderInPlace=true selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
