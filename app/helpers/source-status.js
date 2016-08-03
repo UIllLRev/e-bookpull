@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export function sourceStatus(params/*, hash*/) {
     switch (params[0]) {
+        case 'N':
+            return "Not Pulled";
         case 'X':
             return "On Shelf";
         case 'E':
