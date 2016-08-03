@@ -1,6 +1,7 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /members/bookpull/api/
+RewriteRule ^import.* import.php [L]
 RewriteRule ^upload.* upload.php [L]
 RewriteRule . api.php [L]
 </IfModule>
