@@ -375,7 +375,11 @@ function source_modify($id, $data) {
         }
         if (array_key_exists('ordered', $data['attributes'])) {
             $params[] = ' `ordered` = ?';
-            $vals[] = date('Y-m-d', strtotime($data['attributes']['ordered']));
+            if (is_null($data['attributes']['ordered'])) {
+                $vals[] = null;
+            } else {
+                $vals[] = date('Y-m-d', strtotime($data['attributes']['ordered']));
+            }
         }
         if (array_key_exists('status', $data['attributes'])) {
             $params[] = ' `status_code` = ?';
