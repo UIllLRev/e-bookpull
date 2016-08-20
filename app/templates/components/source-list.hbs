@@ -1,4 +1,10 @@
-<table class="mdl-data-table mdl-js-data-table" style="table-layout:auto">
+<table class="mdl-data-table mdl-js-data-table source-table">
+<col>
+<col class="citation-column">
+<col>
+<col>
+<col>
+<col>
 <thead>
 <th class="mdl-data-table__cell--non-numeric"></th>
 <th class="mdl-data-table__cell--non-numeric">Citation</th>
@@ -19,13 +25,13 @@
 <a href="{{source.url}}">Link</a>
 {{/if}}
 </td>
-<td>
+<td class="mdl-data-table__cell--non-numeric">
 {{date-render source.ordered}}
 </td>
-<td class="mdl-data-table__cell--non-numeric">
+<td class="mdl-data-table__cell--non-numeric" style="white-space:normal">
 {{source.comments}}
 </td>
-<td>
+<td class="mdl-data-table__cell--non-numeric">
 {{source-status source.status}}
 </td>
 </tr>
