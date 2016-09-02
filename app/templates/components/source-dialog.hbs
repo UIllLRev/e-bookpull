@@ -4,7 +4,8 @@
 <form>
 {{my-mdl-textfield value=model.citation label='Citation'}}
 {{my-mdl-textfield value=model.url label='URL'}}
-{{file-upload label="Upload File" work=model.work action='uploadComplete'}}
+{{file-upload label="Upload File" work=model.work complete='uploadComplete' progress='uploadProgress'}}
+{{my-mdl-progress progress=fileUploadProgress}}
 {{mdl-datefield date=model.ordered label='Ordered Date'}}
 {{my-mdl-textarea value=model.comments label='Comments'}}
 <div class="mdl-textfield mdl-js-textfield">
@@ -15,7 +16,7 @@
 </form>
 </div>
 <div class="mdl-dialog__actions">
-{{#mdl-button isRaised=true click=(action 'save')}} Save {{/mdl-button}}
+{{#mdl-button isRaised=true disabled=saveDisabled click=(action 'save')}} Save {{/mdl-button}}
 {{#mdl-button isRaised=true isAccent=true click=(action 'close')}} Cancel {{/mdl-button}}
 </div>
 </dialog>

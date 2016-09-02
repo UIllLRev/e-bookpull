@@ -6,11 +6,14 @@ export default EmberUploader.FileField.extend({
         const uploader = EmberUploader.Uploader.create({
             url: "api/upload/" + this.get('work').get('id')
         });
+        uploader.on('progress', e => {
+            this.sendAction('progress', e.percent);
+        });
 
 
         if (!Ember.isEmpty(files)) {
             uploader.upload(files[0]).then(data => {
-                this.sendAction('action', data['url']);
+                this.sendAction('complete', data['url']);
             });
         }
     }
