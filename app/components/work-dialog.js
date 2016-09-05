@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
     dialogService: Ember.inject.service(),
+    fileUploadProgress: 0,
     didInsertElement() {
         var dialog = this.$('dialog').get(0);
         if (! dialog.showModal) {
@@ -13,8 +14,15 @@ export default Ember.Component.extend({
         this.get('dialogService').registerWorkDialog(this);
     },
     actions: {
+        uploadProgress: function(percent) {
+            this.set('fileUploadProgress', percent);
+        },
+        uploadComplete: function(url) {
+            this.set('fileUploadProgress', 100);
+        },
         show: function(work) {
             var dialog = this.$('dialog').get(0);
+            this.set('fileUploadProgress', 0);
             this.set('model', work);
             dialog.showModal();
         },

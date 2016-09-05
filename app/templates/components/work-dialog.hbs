@@ -8,6 +8,8 @@
 {{my-mdl-textfield label='Issue' value=model.issue}}
 {{my-mdl-textarea label='Comments' value=model.comments}}
 {{my-mdl-textarea label='Bookpuller' value=model.bookpuller}}
+{{file-upload label="Upload File" endpoint='import' work=model disabled=model.isNew complete='uploadComplete' progress='uploadProgress'}}
+{{my-mdl-progress progress=fileUploadProgress}}
 </form>
 </div>
 <div class="mdl-dialog__actions">

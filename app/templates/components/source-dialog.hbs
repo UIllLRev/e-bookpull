@@ -4,7 +4,7 @@
 <form>
 {{my-mdl-textfield value=model.citation label='Citation'}}
 {{my-mdl-textfield value=model.url label='URL'}}
-{{file-upload label="Upload File" work=model.work complete='uploadComplete' progress='uploadProgress'}}
+{{file-upload label="Upload File" endpoint='upload' work=model.work complete='uploadComplete' progress='uploadProgress'}}
 {{my-mdl-progress progress=fileUploadProgress}}
 {{mdl-datefield date=model.ordered label='Ordered Date'}}
 {{my-mdl-textarea value=model.comments label='Comments'}}
