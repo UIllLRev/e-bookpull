@@ -2,6 +2,11 @@
 <h4 class="mdl-dialog__title">Edit Source</h4>
 <div class="mdl-dialog__content">
 <form>
+<div class="mdl-textfield mdl-js-textfield">
+{{#power-select placeholder='Type' renderInPlace=true selected=model.type options=types onchange=(action (mut model.type)) as |name|}}
+{{source-type name}}
+{{/power-select}}
+</div>
 {{my-mdl-textfield value=model.citation label='Citation'}}
 {{my-mdl-textfield value=model.url label='URL'}}
 {{file-upload label="Upload File" endpoint='upload' work=model.work complete='uploadComplete' progress='uploadProgress'}}

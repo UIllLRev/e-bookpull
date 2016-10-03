@@ -43,5 +43,6 @@ export default Ember.Component.extend({
             dialog.close();
         }
     },
-    statuses: ['X', 'E', 'XP', 'XR', 'M', 'R']
+    statuses: ['X', 'E', 'XP', 'XR', 'M', 'R'],
+    types: ['B', 'C', 'J', 'L', 'P', 'M']
 });
