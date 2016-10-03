@@ -17,7 +17,7 @@ export default Ember.Component.extend({
         uploadProgress: function(percent) {
             this.set('fileUploadProgress', percent);
         },
-        uploadComplete: function(url) {
+        uploadComplete: function() {
             this.set('fileUploadProgress', 100);
         },
         show: function(work) {
