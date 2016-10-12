@@ -23,7 +23,7 @@ function get_dbh() {
 function work_list() {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller` FROM `article_author`');
+        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller` FROM `works`');
     $stmt->execute();
 
     $stmt2 = $dbh->prepare('SELECT `id`, `author_code` FROM `sources`');
@@ -71,7 +71,7 @@ function work_get($id) {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller`'
-       .' FROM `article_author` WHERE `author_code` = ?');
+       .' FROM `works` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id);
     $stmt->execute();
     $sources = source_list_by_work($id);
@@ -142,7 +142,7 @@ function work_insert($data) {
 
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-    'INSERT INTO `article_author` ('
+    'INSERT INTO `works` ('
         . join(',', $params)
         .') VALUES ('
         . join(',', array_slice(array('?', '?', '?', '?', '?', '?'), 0, count($vals)))
@@ -195,7 +195,7 @@ function work_modify($id, $data) {
 
         $dbh = get_dbh();
         $stmt = $dbh->prepare(
-            'UPDATE `article_author` SET'
+            'UPDATE `works` SET'
             . join(',', $params)
             .' WHERE `author_code` = ?');
 
@@ -214,7 +214,7 @@ function work_modify($id, $data) {
 
 function work_delete($id) {
     $dbh = get_dbh();
-    $stmt = $dbh->prepare('DELETE FROM `article_author` WHERE `author_code` = ?');
+    $stmt = $dbh->prepare('DELETE FROM `works` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
     $stmt->execute();
     return true;
