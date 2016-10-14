@@ -1,11 +1,12 @@
 import Ember from 'ember';
 import EmberUploader from 'ember-uploader';
+import config from 'ebookpull/config/environment';
 
 export default EmberUploader.FileField.extend({
     attributeBindings: ['type', 'multiple', 'disabled'],
     filesDidChange: function(files) {
         const uploader = EmberUploader.Uploader.create({
-            url: "api/" + this.get('endpoint') + "/" + this.get('work').get('id')
+            url: config.rootURL + "api/" + this.get('endpoint') + "/" + this.get('work').get('id')
         });
         uploader.on('progress', e => {
             this.sendAction('progress', e.percent);
