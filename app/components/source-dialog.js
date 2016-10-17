@@ -4,6 +4,7 @@ export default Ember.Component.extend({
     dialogService: Ember.inject.service(),
     fileUploadProgress: 0,
     saveDisabled: false,
+    saveButtonText: 'Save',
     didInsertElement() {
         var dialog = this.$('dialog').get(0);
         if (! dialog.showModal) {
@@ -15,12 +16,20 @@ export default Ember.Component.extend({
         this.get('dialogService').registerSourceDialog(this);
     },
     actions: {
+        uploadError: function(jqXHR, textStatus, errorThrown) {
+            this.set('saveDisabled', false);
+            this.set('saveButtonText', 'Save');
+            this.set('fileUploadProgress', 0);
+            alert('Sorry, there was an error. Upload aborted.');
+        },
         uploadProgress: function(percent) {
             this.set('saveDisabled', true);
+            this.set('saveButtonText', 'Wait');
             this.set('fileUploadProgress', percent);
         },
         uploadComplete: function(url) {
             this.set('fileUploadProgress', 100);
+            this.set('saveButtonText', 'Save');
             this.set('saveDisabled', false);
             this.get('model').set('url', url);
             this.get('model').set('status', 'E');
