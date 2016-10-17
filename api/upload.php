@@ -43,7 +43,7 @@ function sanitize_filename($str)
 function upload_file($id, $file) {
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_name` FROM `article_author` WHERE `author_code` = ?');
+        'SELECT `author_name` FROM `works` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id);
     $stmt->execute();
 
