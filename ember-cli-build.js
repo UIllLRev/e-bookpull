@@ -25,6 +25,7 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/material-design-lite/material.min.js');
   app.import(app.bowerDirectory + '/dialog-polyfill/dialog-polyfill.css');
   app.import(app.bowerDirectory + '/dialog-polyfill/dialog-polyfill.js');
+  app.import(app.bowerDirectory + '/raven-js/dist/raven.js');
 
   return app.toTree();
 };
