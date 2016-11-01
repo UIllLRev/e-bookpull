@@ -518,6 +518,9 @@ try {
 
     handle_request(parse_request_uri($_SERVER['REQUEST_URI']), isset($input) ? $input['data']: null);
 } catch (Exception $e) {
+    global $sentry;
+    $sentry->captureException($e);
+
     if ($e->getCode == 400) {
         header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
     } else {
