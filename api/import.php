@@ -1,4 +1,6 @@
 <?php
+
+require 'sentry.php';
 include 'config.php';
 
 function db_connect($connection_string, $user, $pass) {

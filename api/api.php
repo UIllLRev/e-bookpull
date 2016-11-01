@@ -1,5 +1,6 @@
 <?php
 
+require 'sentry.php';
 include 'config.php';
 
 function db_connect($connection_string, $user, $pass) {
@@ -521,10 +522,6 @@ try {
         header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
     } else {
         header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
-        // Only enable this line for debugging!
-        // It's bad practice to leak exception information to a potential attacker.
-        // TODO: better exception logging
-        print var_dump($e);
     }
 }
 ?>
