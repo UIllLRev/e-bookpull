@@ -509,8 +509,7 @@ function handle_request($params, $data) {
 
 try {
     // For anything other than POST, PHP only allows access to request body through php://input.
-    // But php://input is not available if allow_url_fopen is disabled in php.ini.
-    // That's PHP Quality(tm).
+    // But php://input doesn't work on iPower for some reason.
     // So instead we break with the jsonapi.org spec and use POST for updates.
     if (isset($HTTP_RAW_POST_DATA)) {
         $input = json_decode($HTTP_RAW_POST_DATA, true);
@@ -518,9 +517,6 @@ try {
 
     handle_request(parse_request_uri($_SERVER['REQUEST_URI']), isset($input) ? $input['data']: null);
 } catch (Exception $e) {
-    global $sentry;
-    $sentry->captureException($e);
-
     if ($e->getCode == 400) {
         header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
     } else {
