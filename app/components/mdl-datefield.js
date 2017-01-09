@@ -14,13 +14,9 @@ export default MdlTextfield.extend({
     date: Ember.computed('value', {
         get(key) {
             try {
-                var d = new Date(this.get('value'));
-                if (Object.prototype.toString.call(d) === '[object Date]' && isFinite(d)) {
-                        d = new Date(d.valueOf() + d.getTimezoneOffset() * 60000);
-                        if (Object.prototype.toString.call(d) === '[object Date]' && isFinite(d)) {
-                            return d;
-                        }
-                }
+                // Create Date at midnight local time
+                var struct = /^(\d{4})-(\d{2})-(\d{2})$/.exec(this.get('value'));
+                return new Date(struct[1], struct[2] - 1, struct[3]);
             } catch (RangeError) {
             }
 
@@ -28,6 +24,8 @@ export default MdlTextfield.extend({
         },
         set(key, date) {
             if (date) {
+                // This is a bit of hack - we need the YYYY-mm-dd format in local time. So we remove the offset and
+                // then call toISOString, which is in UTC.
                 this.set('value',
                     new Date(date.valueOf() - date.getTimezoneOffset() * 60000).toISOString().substring(0, 10));
             }
