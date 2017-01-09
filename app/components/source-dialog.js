@@ -44,6 +44,8 @@ export default Ember.Component.extend({
             var dialog = this.$('dialog').get(0);
             this.get('model').save().then(() => {
                 dialog.close();
+            }).catch((error) => {
+                alert('Sorry, there was an error saving to the server.');
             });
         },
         close: function() {
