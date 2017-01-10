@@ -14,10 +14,7 @@ export default Ember.Controller.extend({
         sources(work) {
            // this forces a reload of the work before entering the work route
            // this gets all of the sources in one request - WAY faster
-            var _this = this;
-            work.reload().then(function (model) {
-                _this.transitionToRoute('work.sources', model);
-            });
+            this.transitionToRoute('work.sources', work.reload());
         }
     },
     sortBy: ['author'],
