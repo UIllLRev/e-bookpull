@@ -27,11 +27,11 @@ export default Ember.Component.extend({
             this.set('saveButtonText', 'Wait');
             this.set('fileUploadProgress', percent);
         },
-        uploadComplete: function(url) {
+        uploadComplete: function(data) {
             this.set('fileUploadProgress', 100);
             this.set('saveButtonText', 'Save');
             this.set('saveDisabled', false);
-            this.get('model').set('url', url);
+            this.get('model').set('url', data['url']);
             this.get('model').set('status', 'E');
         },
         show: function(work) {
