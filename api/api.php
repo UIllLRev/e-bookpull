@@ -422,10 +422,13 @@ function parse_request_uri($uri) {
 
     $matches = array();
     if (preg_match('/^(works|sources)(\/([0-9]+))?$/', $uri, $matches)) {
-        return array(
-            resource_type   => $matches[1],
-            resource_id     => $matches[3],
+        $ret = array(
+            'resource_type'   => $matches[1]
         );
+        if (count($matches) > 3) {
+            $ret['resource_id'] = $matches[3];
+        }
+        return $ret;
     } else {
         throw new Exception('Invalid request', 400);
     }
