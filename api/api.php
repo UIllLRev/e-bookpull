@@ -448,6 +448,9 @@ function handle_request($params, $data) {
             case 'DELETE':
                 $res = work_delete($params['resource_id']);
                 break;
+            case 'OPTIONS':
+                $res = true;
+                break;
             default:
                 throw new Exception('Invalid method', 400);
             }
@@ -457,48 +460,53 @@ function handle_request($params, $data) {
                 $res = work_list();
                 break;
             case 'POST':
-                switch ($params['resource_type']) {
-                case 'works':
-                    $res = work_insert($data);
-                    break;
-                }
+                $res = work_insert($data);
                 break;
-                default:
-                    throw new Exception('Invalid method', 400);
+            case 'OPTIONS':
+                $res = true;
+                break;
+            default:
+                throw new Exception('Invalid method', 400);
             }
         }
         break;
-            case 'sources':
-                if ($params['resource_id'] != null) {
-                    switch ($_SERVER['REQUEST_METHOD']) {
-                    case 'GET':
-                        $res = source_get($params['resource_id']);
-                        break;
-                    case 'POST':
-                        $res = source_modify($params['resource_id'], $data);
-                        break;
-                    case 'DELETE':
-                        $res = source_delete($params['resource_id']);
-                        break;
-                    default:
-                        throw new Exception('Invalid method', 400);
-                    }
-                } else {
-                    switch ($_SERVER['REQUEST_METHOD']) {
-                    case 'GET':
-                        $res = source_list();
-                        break;
-                    case 'POST':
-                        $res = source_insert($params['resource_id'], $_REQUEST['type'], $_REQUEST['citation'],
-                            $_REQUEST['url'], $_REQUEST['comments'], $_REQUEST['ordered'], $_REQUEST['status']);
-                        break;
-                    default:
-                        throw new Exception('Invalid method', 400);
-                    }
-                }
+    case 'sources':
+        if ($params['resource_id'] != null) {
+            switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $res = source_get($params['resource_id']);
                 break;
-                    default:
-                        throw new Exception('Invalid resource type', 400);
+            case 'POST':
+                $res = source_modify($params['resource_id'], $data);
+                break;
+            case 'DELETE':
+                $res = source_delete($params['resource_id']);
+                break;
+            case 'OPTIONS':
+                $res = true;
+                break;
+            default:
+                throw new Exception('Invalid method', 400);
+            }
+        } else {
+            switch ($_SERVER['REQUEST_METHOD']) {
+            case 'GET':
+                $res = source_list();
+                break;
+            case 'POST':
+                $res = source_insert($params['resource_id'], $_REQUEST['type'], $_REQUEST['citation'],
+                    $_REQUEST['url'], $_REQUEST['comments'], $_REQUEST['ordered'], $_REQUEST['status']);
+                break;
+            case 'OPTIONS':
+                $res = true;
+                break;
+            default:
+                throw new Exception('Invalid method', 400);
+            }
+        }
+        break;
+    default:
+        throw new Exception('Invalid resource type', 400);
     }
 
     if (is_bool($res) && $res) {
