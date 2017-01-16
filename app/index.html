@@ -33,15 +33,15 @@
     <!-- Material Design icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/ebookpull.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/ebookpull.css">
 
     {{content-for "head-footer"}}
   </head>
   <body class="mdl-base mdl-color--grey-100 mdl-color-text--grey-700">
     {{content-for "body"}}
 
-    <script src="assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
     <script>
         Raven
         .config('https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958')
@@ -49,7 +49,7 @@
         .setRelease($("meta[name='sentry:revision']").attr('content'))
         .install();
     </script>
-    <script src="assets/ebookpull.js"></script>
+    <script src="{{rootURL}}assets/ebookpull.js"></script>
 
     {{content-for "body-footer"}}
   </body>
