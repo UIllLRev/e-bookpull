@@ -29,7 +29,7 @@ module.exports = function(deployTarget) {
       };
       ENV['scp'] = {
           username: 'ilr',
-          host: 'ftp.illinoislawreview.org',
+          host: 'chain-lightning.dreamhost.com',
           path: 'illinoislawreview.org/members/bookpull'
       };
   }
