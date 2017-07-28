@@ -215,6 +215,20 @@ function work_modify($id, $data) {
 
 function work_delete($id) {
     $dbh = get_dbh();
+    $stmt = $dbh->prepare(
+        'SELECT `author_name` FROM `works` WHERE `author_code` = ?');
+    $stmt->bindValue(1, $id);
+    $stmt->execute();
+
+    if ($row = $stmt->fetch()) {
+        $author_name = $row['author_name'];
+
+        $target_dir = '../uploads/' . $author_name;
+        if (is_dir($target_dir)) {
+            rename($target_dir, '../uploads/' . $author_name . '.deleted');
+        }
+    }
+
     $stmt = $dbh->prepare('DELETE FROM `works` WHERE `author_code` = ?');
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
     $stmt->execute();
