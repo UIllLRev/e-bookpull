@@ -43,7 +43,7 @@ class Raven_Serializer
      *
      * @var string
      */
-    private $mb_detect_order= self::DEFAULT_MB_DETECT_ORDER;
+    protected $mb_detect_order = self::DEFAULT_MB_DETECT_ORDER;
 
     /**
      * @param null|string $mb_detect_order
@@ -54,24 +54,29 @@ class Raven_Serializer
             $this->mb_detect_order = $mb_detect_order;
         }
     }
+
     /**
      * Serialize an object (recursively) into something safe for data
      * sanitization and encoding.
+     *
+     * @param mixed $value
+     * @param int   $max_depth
+     * @param int   $_depth
+     * @return string|bool|double|int|null|object|array
      */
-    public function serialize($value, $max_depth=3, $_depth=0)
+    public function serialize($value, $max_depth = 3, $_depth = 0)
     {
-        if (is_object($value) || is_resource($value)) {
-            return $this->serializeValue($value);
-        } elseif ($_depth < $max_depth && is_array($value)) {
+        $className = is_object($value) ? get_class($value) : null;
+        $toArray = is_array($value) || $className === 'stdClass';
+        if ($toArray && $_depth < $max_depth) {
             $new = array();
             foreach ($value as $k => $v) {
                 $new[$this->serializeValue($k)] = $this->serialize($v, $max_depth, $_depth + 1);
             }
 
             return $new;
-        } else {
-            return $this->serializeValue($value);
         }
+        return $this->serializeValue($value);
     }
 
     protected function serializeString($value)
@@ -95,6 +100,10 @@ class Raven_Serializer
         return $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return string|bool|double|int|null
+     */
     protected function serializeValue($value)
     {
         if (is_null($value) || is_bool($value) || is_float($value) || is_integer($value)) {
@@ -113,6 +122,7 @@ class Raven_Serializer
 
     /**
      * @return string
+     * @codeCoverageIgnore
      */
     public function getMbDetectOrder()
     {
@@ -123,6 +133,7 @@ class Raven_Serializer
      * @param string $mb_detect_order
      *
      * @return Raven_Serializer
+     * @codeCoverageIgnore
      */
     public function setMbDetectOrder($mb_detect_order)
     {
