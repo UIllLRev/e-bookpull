@@ -1,5 +1,4 @@
-import Ember from 'ember';
-import computed from 'ember-new-computed';
+import { computed } from '@ember/object';
 import MdlProgress from 'ember-material-lite/components/mdl-progress';
 
 export default MdlProgress.extend({

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export function sourceType(params/*, hash*/) {
     switch (params[0]) {
@@ -19,4 +19,4 @@ export function sourceType(params/*, hash*/) {
     }
 }
 
-export default Ember.Helper.helper(sourceType);
+export default helper(sourceType);

@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-export default Ember.Component.extend({
-    dialogService: Ember.inject.service(),
+export default Component.extend({
+    dialogService: inject(),
     fileUploadProgress: 0,
     saveDisabled: false,
     saveButtonText: 'Save',
@@ -14,6 +15,12 @@ export default Ember.Component.extend({
             this.get('model').rollbackAttributes();
         });
         this.get('dialogService').registerSourceDialog(this);
+    },
+    init() {
+        this._super(...arguments);
+
+        this.statuses = ['X', 'E', 'XP', 'XR', 'M', 'R'];
+        this.types = ['B', 'C', 'J', 'L', 'P', 'M'];
     },
     actions: {
         uploadError: function(jqXHR, textStatus, errorThrown) {
@@ -54,6 +61,4 @@ export default Ember.Component.extend({
             dialog.close();
         }
     },
-    statuses: ['X', 'E', 'XP', 'XR', 'M', 'R'],
-    types: ['B', 'C', 'J', 'L', 'P', 'M']
 });

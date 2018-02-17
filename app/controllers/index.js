@@ -1,7 +1,9 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { inject } from '@ember/service';
+import { sort } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-    dialogService: Ember.inject.service(),
+export default Controller.extend({
+    dialogService: inject(),
     actions: {
         add() {
             var work = this.get('store').createRecord('work');
@@ -17,6 +19,5 @@ export default Ember.Controller.extend({
             this.transitionToRoute('work.sources', work.reload());
         }
     },
-    sortBy: ['author'],
-    sorted: Ember.computed.sort('model', 'sortBy')
+    sorted: sort('model', 'author')
 });

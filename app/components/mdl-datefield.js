@@ -1,18 +1,19 @@
-import Ember from 'ember';
+import { scheduleOnce } from '@ember/runloop';
+import { computed } from '@ember/object';
 import MdlTextfield from 'ember-material-lite/components/mdl-textfield';
 
 export default MdlTextfield.extend({
     // Needed until https://github.com/mike-north/ember-material-lite/pull/94
     // is merged
     didUpdate() {
-        Ember.run.scheduleOnce('afterRender', this, () => {
+        scheduleOnce('afterRender', this, () => {
             this.get('_mdlComponent').updateClasses_();
         });
         return this._super(...arguments);
     },
     type: 'date',
-    date: Ember.computed('value', {
-        get(key) {
+    date: computed('value', {
+        get() {
             try {
                 // Create Date at midnight local time
                 var struct = /^(\d{4})-(\d{2})-(\d{2})$/.exec(this.get('value'));

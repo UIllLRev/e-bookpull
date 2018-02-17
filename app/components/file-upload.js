@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
 import EmberUploader from 'ember-uploader';
 import config from 'ebookpull/config/environment';
 
@@ -16,7 +16,7 @@ export default EmberUploader.FileField.extend({
         });
 
 
-        if (!Ember.isEmpty(files)) {
+        if (!isEmpty(files)) {
             uploader.upload(files[0]).then(data => {
                 this.sendAction('complete', data);
             });

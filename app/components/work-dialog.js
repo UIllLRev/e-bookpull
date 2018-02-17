@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-export default Ember.Component.extend({
-    dialogService: Ember.inject.service(),
+export default Component.extend({
+    dialogService: inject(),
     fileUploadProgress: 0,
     didInsertElement() {
         var dialog = this.$('dialog').get(0);

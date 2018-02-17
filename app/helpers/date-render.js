@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export function dateRender(params/*, hash*/) {
     if (params[0] instanceof Date) {
@@ -7,4 +7,4 @@ export function dateRender(params/*, hash*/) {
   return params;
 }
 
-export default Ember.Helper.helper(dateRender);
+export default helper(dateRender);
