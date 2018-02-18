@@ -12,25 +12,25 @@ $color-accent: "232,119,34";
     width: 40%;
 }
 
-.breadcrumbs {
+.breadcrumb {
     list-style: none;
     overflow: hidden;
     margin: 0;
     padding: 0;
 }
-.breadcrumbs li {
+.breadcrumb li {
     float: left;
     padding-left: 2pt;
     position: relative;
     display: block;
 }
-.breadcrumbs li:first-child {
+.breadcrumb li:first-child {
     padding-left: 0;
 }
-.breadcrumbs li a {
+.breadcrumb li a {
     text-decoration: none;
 }
-.breadcrumbs li a:after {
+.breadcrumb li a:after {
     content: "\27a4";
     padding-left: 2pt;
 }
