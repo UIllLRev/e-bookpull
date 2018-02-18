@@ -19,5 +19,6 @@ export default Controller.extend({
             this.transitionToRoute('work.sources', work.reload());
         }
     },
-    sorted: sort('model', 'author')
+    sortedBy: Object.freeze(['author']),
+    sorted: sort('model', 'sortedBy')
 });
