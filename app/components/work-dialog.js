@@ -15,6 +15,10 @@ export default Component.extend({
         this.get('dialogService').registerWorkDialog(this);
     },
     actions: {
+        uploadError: function() {
+            this.set('fileUploadProgress', 0);
+            alert('Sorry, there was an error. Upload aborted.');
+        },
         uploadProgress: function(percent) {
             this.set('fileUploadProgress', percent);
         },

@@ -28,6 +28,9 @@ function import_file($id, $file) {
     );
 
     $sources = json_decode(file_get_contents($file['tmp_name']), true);
+    if (!is_iterable($sources)) {
+        throw new Exception('Supplied JSON file is invalid.', 400);
+    }
     foreach ($sources as $source) {
         $stmt->bindValue(1, $id);
         $stmt->bindValue(2, $source['type']);
