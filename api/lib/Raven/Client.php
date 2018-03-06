@@ -16,7 +16,7 @@
 
 class Raven_Client
 {
-    const VERSION = '1.7.1';
+    const VERSION = '1.9.x-dev';
 
     const PROTOCOL = '6';
 
@@ -44,7 +44,13 @@ class Raven_Client
     protected $error_handler;
     protected $error_types;
 
+    /**
+     * @var Raven_Serializer
+     */
     protected $serializer;
+    /**
+     * @var Raven_ReprSerializer
+     */
     protected $reprSerializer;
 
     /**
@@ -270,6 +276,21 @@ class Raven_Client
         return $this;
     }
 
+    /**
+     * Note: Prior to PHP 5.6, a stream opened with php://input can
+     * only be read once;
+     *
+     * @see http://php.net/manual/en/wrappers.php.php
+     */
+    protected static function getInputStream()
+    {
+        if (PHP_VERSION_ID < 50600) {
+            return null;
+        }
+
+        return file_get_contents('php://input');
+    }
+
     private static function getDefaultPrefixes()
     {
         $value = get_include_path();
@@ -285,8 +306,8 @@ class Raven_Client
         // we need app_path to have a trailing slash otherwise
         // base path detection becomes complex if the same
         // prefix is matched
-        if (substr($path, 0, 1) === DIRECTORY_SEPARATOR && substr($path, -1) !== DIRECTORY_SEPARATOR) {
-            $path = $path.DIRECTORY_SEPARATOR;
+        if ($path{0} === DIRECTORY_SEPARATOR && substr($path, -1) !== DIRECTORY_SEPARATOR) {
+            $path .= DIRECTORY_SEPARATOR;
         }
         return $path;
     }
@@ -313,7 +334,19 @@ class Raven_Client
 
     public function setExcludedAppPaths($value)
     {
-        $this->excluded_app_paths = $value ? array_map(array($this, '_convertPath'), $value) : null;
+        if ($value) {
+            $excluded_app_paths = array();
+
+            // We should be able to exclude a php files
+            foreach ((array) $value as $path) {
+                $excluded_app_paths[] = substr($path, -4) !== '.php' ? self::_convertPath($path) : $path;
+            }
+        } else {
+            $excluded_app_paths = null;
+        }
+
+        $this->excluded_app_paths = $excluded_app_paths;
+
         return $this;
     }
 
@@ -419,10 +452,21 @@ class Raven_Client
      * @param string $dsn Raven compatible DSN
      * @return array      parsed DSN
      *
-     * @doc http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
+     * @see http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
      */
     public static function parseDSN($dsn)
     {
+        switch (strtolower($dsn)) {
+            case '':
+            case 'false':
+            case '(false)':
+            case 'empty':
+            case '(empty)':
+            case 'null':
+            case '(null)':
+                return array();
+        }
+
         $url = parse_url($dsn);
         $scheme = (isset($url['scheme']) ? $url['scheme'] : '');
         if (!in_array($scheme, array('http', 'https'))) {
@@ -549,15 +593,15 @@ class Raven_Client
     /**
      * Log an exception to sentry
      *
-     * @param Exception $exception The Exception object.
-     * @param array     $data      Additional attributes to pass with this event (see Sentry docs).
-     * @param mixed     $logger
-     * @param mixed     $vars
+     * @param \Throwable|\Exception $exception The Throwable/Exception object.
+     * @param array                 $data      Additional attributes to pass with this event (see Sentry docs).
+     * @param mixed                 $logger
+     * @param mixed                 $vars
      * @return string|null
      */
     public function captureException($exception, $data = null, $logger = null, $vars = null)
     {
-        $has_chained_exceptions = version_compare(PHP_VERSION, '5.3.0', '>=');
+        $has_chained_exceptions = PHP_VERSION_ID >= 50300;
 
         if (in_array(get_class($exception), $this->exclude)) {
             return null;
@@ -719,6 +763,11 @@ class Raven_Client
         // instead of a mapping which goes against the defined Sentry spec
         if (!empty($_POST)) {
             $result['data'] = $_POST;
+        } elseif (isset($_SERVER['CONTENT_TYPE']) && stripos($_SERVER['CONTENT_TYPE'], 'application/json') === 0) {
+            $raw_data = $this->getInputStream() ?: false;
+            if ($raw_data !== false) {
+                $result['data'] = (array) json_decode($raw_data, true) ?: null;
+            }
         }
         if (!empty($_COOKIE)) {
             $result['cookies'] = $_COOKIE;
@@ -832,6 +881,9 @@ class Raven_Client
         if (empty($data['request'])) {
             unset($data['request']);
         }
+        if (empty($data['site'])) {
+            unset($data['site']);
+        }
 
         if (!$this->breadcrumbs->is_empty()) {
             $data['breadcrumbs'] = $this->breadcrumbs->fetch();
@@ -895,6 +947,9 @@ class Raven_Client
         }
         if (!empty($data['contexts'])) {
             $data['contexts'] = $this->serializer->serialize($data['contexts'], 5);
+        }
+        if (!empty($data['breadcrumbs'])) {
+            $data['breadcrumbs'] = $this->serializer->serialize($data['breadcrumbs'], 5);
         }
     }
 
@@ -1010,7 +1065,7 @@ class Raven_Client
 
     /**
      * @return array
-     * @doc http://stackoverflow.com/questions/9062798/php-curl-timeout-is-not-working/9063006#9063006
+     * @see http://stackoverflow.com/questions/9062798/php-curl-timeout-is-not-working/9063006#9063006
      */
     protected function get_curl_options()
     {
@@ -1316,7 +1371,7 @@ class Raven_Client
             case E_STRICT:             return Raven_Client::INFO;
             case E_RECOVERABLE_ERROR:  return Raven_Client::ERROR;
         }
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+        if (PHP_VERSION_ID >= 50300) {
             switch ($severity) {
             case E_DEPRECATED:         return Raven_Client::WARN;
             case E_USER_DEPRECATED:    return Raven_Client::WARN;
@@ -1434,5 +1489,21 @@ class Raven_Client
             curl_close($this->_curl_instance);
             $this->_curl_instance = null;
         }
+    }
+
+    /**
+     * @param Raven_Serializer $serializer
+     */
+    public function setSerializer(Raven_Serializer $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
+     * @param Raven_ReprSerializer $reprSerializer
+     */
+    public function setReprSerializer(Raven_ReprSerializer $reprSerializer)
+    {
+        $this->reprSerializer = $reprSerializer;
     }
 }
