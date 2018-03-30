@@ -37,34 +37,34 @@ function work_list() {
         }
 
         $sources[$source['author_code']][] = array(
-            id      => $source['id'],
-            type    => 'source'
+            'id'      => $source['id'],
+            'type'    => 'source'
         );
     }
 
     $result = array();
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
-            id          => $row['author_code'],
-            type        => 'work',
-            attributes  => array(
-                author      => $row['author_name'],
-                title       => $row['article_name'],
-                volume      => $row['volume'],
-                issue       => $row['issue'],
-                comments    => $row['comments'],
-                bookpuller  => $row['bookpuller']
+            'id'          => $row['author_code'],
+            'type'        => 'work',
+            'attributes'  => array(
+                'author'      => $row['author_name'],
+                'title'       => $row['article_name'],
+                'volume'      => $row['volume'],
+                'issue'       => $row['issue'],
+                'comments'    => $row['comments'],
+                'bookpuller'  => $row['bookpuller']
             ),
-            relationships   => array(
-                sources     => array(
-                    data        => $sources[$row['author_code']]
+            'relationships'   => array(
+                'sources'     => array(
+                    'data'        => $sources[$row['author_code']]
                 )
             )
         );
     }
 
     return array(
-        data => $result
+        'data' => $result
     );
 }
 
@@ -80,29 +80,29 @@ function work_get($id) {
         $rels = array();
         foreach ($sources['data'] as $source) {
             $rels[] = array(
-                type    => 'source',
-                id      => $source['id']
+                'type'    => 'source',
+                'id'      => $source['id']
             );
         }
         return array(
-            data    =>  array(
-                id          => $row['author_code'],
-                type        => 'work',
-                attributes  => array(
-                    author      => $row['author_name'],
-                    title       => $row['article_name'],
-                    volume      => $row['volume'],
-                    issue       => $row['issue'],
-                    comments    => $row['comments'],
-                    bookpuller  => $row['bookpuller']
+            'data'    =>  array(
+                'id'          => $row['author_code'],
+                'type'        => 'work',
+                'attributes'  => array(
+                    'author'      => $row['author_name'],
+                    'title'       => $row['article_name'],
+                    'volume'      => $row['volume'],
+                    'issue'       => $row['issue'],
+                    'comments'    => $row['comments'],
+                    'bookpuller'  => $row['bookpuller']
                 ),
-                relationships   => array(
-                    sources     => array(
-                        data    => $rels
+                'relationships'   => array(
+                    'sources'     => array(
+                        'data'    => $rels
                     )
                 )
             ),
-            included    => $sources['data']
+            'included'    => $sources['data']
         );
     } else {
         throw new Exception('Invalid work', 404);
@@ -245,21 +245,21 @@ function source_list() {
     $result = array();
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
-            id          => $row['id'],
-            type        => 'source',
-            attributes  => array(
-                type        => $row['type'],
-                citation    => $row['citation'],
-                url         => $row['url'],
-                comments    => $row['comments'],
-                ordered     => $row['ordered'],
-                status      => $row['status_code']
+            'id'          => $row['id'],
+            'type'        => 'source',
+            'attributes'  => array(
+                'type'        => $row['type'],
+                'citation'    => $row['citation'],
+                'url'         => $row['url'],
+                'comments'    => $row['comments'],
+                'ordered'     => $row['ordered'],
+                'status'      => $row['status_code']
             ),
-            relationships   => array(
-                work        => array(
-                    data        => array(
-                        type    => 'work',
-                        id      => $row['author_code']
+            'relationships'   => array(
+                'work'        => array(
+                    'data'        => array(
+                        'type'    => 'work',
+                        'id'      => $row['author_code']
                     )
                 )
             )
@@ -267,7 +267,7 @@ function source_list() {
     }
 
     return array(
-        data    =>  $result
+        'data'    =>  $result
     );
 }
 
@@ -282,21 +282,21 @@ function source_list_by_work($work_id) {
     $result = array();
     foreach($stmt->fetchAll() as $row) {
         $result[] = array(
-            id          => $row['id'],
-            type        => 'source',
-            attributes  => array(
-                type        => $row['type'],
-                citation    => $row['citation'],
-                url         => $row['url'],
-                comments    => $row['comments'],
-                ordered     => $row['ordered'],
-                status      => $row['status_code']
+            'id'          => $row['id'],
+            'type'        => 'source',
+            'attributes'  => array(
+                'type'        => $row['type'],
+                'citation'    => $row['citation'],
+                'url'         => $row['url'],
+                'comments'    => $row['comments'],
+                'ordered'     => $row['ordered'],
+                'status'      => $row['status_code']
             ),
-            relationships   => array(
-                work        => array(
-                    data        => array(
-                        type    => 'work',
-                        id      => $work_id
+            'relationships'   => array(
+                'work'        => array(
+                    'data'        => array(
+                        'type'    => 'work',
+                        'id'      => $work_id
                     )
                 )
             )
@@ -304,7 +304,7 @@ function source_list_by_work($work_id) {
     }
 
     return array(
-        data    =>  $result
+        'data'    =>  $result
     );
 }
 
@@ -317,22 +317,22 @@ function source_get($id) {
     $stmt->execute();
     if ($row = $stmt->fetch()) {
         return array(
-            data     => array(
-                id              => $id,
-                type            => 'source',
-                attributes      => array(
-                    type            => $row['type'],
-                    citation        => $row['citation'],
-                    url             => $row['url'],
-                    comments        => $row['comments'],
-                    ordered         => $row['ordered'],
-                    status          => $row['status_code']
+            'data'     => array(
+                'id'              => $id,
+                'type'            => 'source',
+                'attributes'      => array(
+                    'type'            => $row['type'],
+                    'citation'        => $row['citation'],
+                    'url'             => $row['url'],
+                    'comments'        => $row['comments'],
+                    'ordered'         => $row['ordered'],
+                    'status'          => $row['status_code']
                 ),
-                relationships   => array(
-                    work        => array(
-                        data        => array(
-                            type    => 'work',
-                            id      => $row['author_code']
+                'relationships'   => array(
+                    'work'        => array(
+                        'data'        => array(
+                            'type'    => 'work',
+                            'id'      => $row['author_code']
                         )
                     )
                 )
@@ -357,9 +357,9 @@ function source_insert($author_id, $type, $citation, $url, $comments, $ordered, 
     $stmt->bindValue(7, $status, PDO::PARAM_STR);
     $stmt->execute();
     return array(
-        data    =>  array(
-            id          => $dbh->lastInsertId(),
-            type        => 'source'
+        'data'    =>  array(
+            'id'          => $dbh->lastInsertId(),
+            'type'        => 'source'
         )
     );
 }
@@ -437,7 +437,8 @@ function parse_request_uri($uri) {
     $matches = array();
     if (preg_match('/^(works|sources)(\/([0-9]+))?$/', $uri, $matches)) {
         $ret = array(
-            'resource_type'   => $matches[1]
+            'resource_type'   => $matches[1],
+            'resource_id' => null
         );
         if (count($matches) > 3) {
             $ret['resource_id'] = $matches[3];
@@ -449,6 +450,7 @@ function parse_request_uri($uri) {
 }
 
 function handle_request($params, $data) {
+    global $config;
     switch($params['resource_type']) {
     case 'works':
         if ($params['resource_id'] != null) {
@@ -525,8 +527,18 @@ function handle_request($params, $data) {
 
     if (is_bool($res) && $res) {
         header('HTTP/1.1 204 No Content');
+        if ($config['disable_cors']) {
+            header('Access-Control-Allow-Methods: DELETE,GET,OPTIONS,PATCH,POST');
+            header('Access-Control-Allow-Origin: *');
+            header('Access-Control-Allow-Headers: Authorization,Content-Type');
+        }
     } else {
         header('HTTP/1.1 200 OK');
+        if ($config['disable_cors']) {
+            header('Access-Control-Allow-Methods: DELETE,GET,OPTIONS,PATCH,POST');
+            header('Access-Control-Allow-Origin: *');
+            header('Access-Control-Allow-Headers: Authorization,Content-Type');
+        }
         header('Content-type: text/json; charset=utf-8');
         print json_encode($res);
     }
