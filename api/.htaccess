@@ -5,7 +5,3 @@ RewriteRule ^import.* import.php [L]
 RewriteRule ^upload.* upload.php [L]
 RewriteRule . api.php [L]
 </IfModule>
-
-Header set Access-Control-Allow-Methods "DELETE,GET,OPTIONS,PATCH,POST"
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Headers "Authorization,Content-Type"
