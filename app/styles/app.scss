@@ -8,6 +8,16 @@ $color-accent: "232,119,34";
     width: 100%;
 }
 
+#works {
+    width: 100%;
+}
+
+#works td {
+    max-width: 30vw;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
 .citation-column {
     width: 40%;
 }
