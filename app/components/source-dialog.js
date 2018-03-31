@@ -9,6 +9,7 @@ export default Component.extend({
     didInsertElement() {
         var dialog = this.$('dialog').get(0);
         if (! dialog.showModal) {
+            // eslint-disable-next-line no-undef
             dialogPolyfill.registerDialog(dialog);
         }
         dialog.addEventListener('cancel', () => {
@@ -23,7 +24,7 @@ export default Component.extend({
         this.types = ['B', 'C', 'J', 'L', 'P', 'M'];
     },
     actions: {
-        uploadError: function(jqXHR, textStatus, errorThrown) {
+        uploadError: function(/* jqXHR, textStatus, errorThrown */) {
             this.set('saveDisabled', false);
             this.set('saveButtonText', 'Save');
             this.set('fileUploadProgress', 0);
@@ -51,7 +52,7 @@ export default Component.extend({
             var dialog = this.$('dialog').get(0);
             this.get('model').save().then(() => {
                 dialog.close();
-            }).catch((error) => {
+            }).catch(() => {
                 alert('Sorry, there was an error saving to the server.');
             });
         },

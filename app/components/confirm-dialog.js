@@ -12,6 +12,7 @@ export default Component.extend({
     didInsertElement() {
         var dialog = this.$('dialog').get(0);
         if (! dialog.showModal) {
+            // eslint-disable-next-line no-undef
             dialogPolyfill.registerDialog(dialog);
         }
         this.get('dialogService').registerConfirmDialog(this);
@@ -37,11 +38,13 @@ export default Component.extend({
            dialog.showModal();
        },
        yes: function() {
+           // eslint-disable-next-line ember/closure-actions
            this.sendAction('yes_action');
            var dialog = this.$('dialog').get(0);
            dialog.close();
        },
        no: function() {
+           // eslint-disable-next-line ember/closure-actions
            this.sendAction('no_action');
            var dialog = this.$('dialog').get(0);
            dialog.close();

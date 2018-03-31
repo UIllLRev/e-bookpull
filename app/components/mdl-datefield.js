@@ -18,7 +18,9 @@ export default MdlTextfield.extend({
                 // Create Date at midnight local time
                 var struct = /^(\d{4})-(\d{2})-(\d{2})$/.exec(this.get('value'));
                 return new Date(struct[1], struct[2] - 1, struct[3]);
-            } catch (RangeError) {
+            } 
+            // eslint-disable-next-line no-empty
+            catch (RangeError) {
             }
 
             return null;

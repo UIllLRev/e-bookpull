@@ -7,6 +7,7 @@ export default Component.extend({
     didInsertElement() {
         var dialog = this.$('dialog').get(0);
         if (! dialog.showModal) {
+            // eslint-disable-next-line no-undef
             dialogPolyfill.registerDialog(dialog);
         }
         dialog.addEventListener('cancel', () => {
