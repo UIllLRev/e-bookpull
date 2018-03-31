@@ -12,14 +12,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{confirm-dialog}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#confirm-dialog}}
-      template block text
-    {{/confirm-dialog}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('.mdl-dialog__title').text().trim(), 'Confirm');
 });

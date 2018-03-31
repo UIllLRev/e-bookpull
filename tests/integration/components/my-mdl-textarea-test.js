@@ -12,13 +12,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{my-mdl-textarea}}`);
 
   assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#my-mdl-textarea}}
-      template block text
-    {{/my-mdl-textarea}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

@@ -11,14 +11,5 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{work-dialog}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#work-dialog}}
-      template block text
-    {{/work-dialog}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('.mdl-dialog__title').text().trim(), 'Edit Work');
 });
