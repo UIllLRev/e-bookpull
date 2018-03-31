@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { inject } from '@ember/service';
+import config from '../config/environment';
 
 export default Component.extend({
     dialogService: inject(),
@@ -49,6 +50,12 @@ export default Component.extend({
             dialog.showModal();
         },
         save: function() {
+            var url = this.get('model').get('url');
+            if (url.length > 0 && !url.startsWith(config.rootURL) && !url.startsWith('http://') && !url.startsWith('https://'))
+            {
+                alert('Invalid URL. It must begin with "' + config.rootURL + '" (for uploaded files) or "http://" or "https://".');
+                return;
+            }
             var dialog = this.$('dialog').get(0);
             this.get('model').save().then(() => {
                 dialog.close();

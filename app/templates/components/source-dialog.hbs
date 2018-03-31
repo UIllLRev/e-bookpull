@@ -8,7 +8,7 @@
 {{/power-select}}
 </div>
 {{my-mdl-textfield value=model.citation label='Citation'}}
-{{my-mdl-textfield value=model.url label='URL'}}
+{{my-mdl-textfield value=model.url label='URL' pattern='(https?://|/).*'}}
 {{file-upload label="Upload File" endpoint='upload' work=model.work complete='uploadComplete' progress='uploadProgress' error='uploadError'}}
 {{my-mdl-progress progress=fileUploadProgress}}
 {{mdl-datefield date=model.ordered label='Ordered Date'}}
