@@ -1,6 +1,7 @@
 /*jshint node:true*/
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
@@ -32,5 +33,11 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/raven-js/dist/raven.js');
   app.import(app.bowerDirectory + '/raven-js/dist/plugins/ember.js');
 
-  return app.toTree();
+  let api = new Funnel('api', {
+      srcDir: '/',
+      include: ['**/*.php', '.htaccess'],
+      destDir: '/api'
+  });
+
+  return app.toTree(api);
 };
