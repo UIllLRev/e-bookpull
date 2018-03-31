@@ -3,11 +3,26 @@
 <tr>
 <th></th>
 <th></th>
-<th class="mdl-data-table__cell--non-numeric">Author</th>
-<th class="mdl-data-table__cell--non-numeric">Bookpuller</th>
-<th>Volume</th>
-<th>Issue</th>
-<th class="mdl-data-table__cell--non-numeric">Title</th>
+<th {{action 'changesort' 'author'}} class="mdl-data-table__cell--non-numeric">Author
+{{{if (and (eq sortKey 'author') (eq sortOrder 'asc')) '&#9650;'}}}
+{{{if (and (eq sortKey 'author') (eq sortOrder 'desc')) '&#9660;'}}}
+</th>
+<th {{action 'changesort' 'bookpuller'}} class="mdl-data-table__cell--non-numeric">Bookpuller
+{{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'asc')) '&#9650;'}}}
+{{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'desc')) '&#9660;'}}}
+</th>
+<th {{action 'changesort' 'volume'}}>Volume
+{{{if (and (eq sortKey 'volume') (eq sortOrder 'asc')) '&#9650;'}}}
+{{{if (and (eq sortKey 'volume') (eq sortOrder 'desc')) '&#9660;'}}}
+</th>
+<th {{action 'changesort' 'issue'}}>Issue
+{{{if (and (eq sortKey 'issue') (eq sortOrder 'asc')) '&#9650;'}}}
+{{{if (and (eq sortKey 'issue') (eq sortOrder 'desc')) '&#9660;'}}}
+</th>
+<th {{action 'changesort' 'title'}} class="mdl-data-table__cell--non-numeric">Title
+{{{if (and (eq sortKey 'title') (eq sortOrder 'asc')) '&#9650;'}}}
+{{{if (and (eq sortKey 'title') (eq sortOrder 'desc')) '&#9660;'}}}
+</th>
 </tr>
 </thead>
 <tbody>

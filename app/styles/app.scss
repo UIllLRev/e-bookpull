@@ -28,6 +28,10 @@ $color-accent: "232,119,34";
     right: 1rem;
 }
 
+[data-ember-action]:not(:disabled) {
+      cursor: pointer;
+}
+
 .breadcrumb {
     list-style: none;
     overflow: hidden;
