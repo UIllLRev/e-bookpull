@@ -43,15 +43,17 @@
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script>
-        Raven
-        .config('https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958')
-        .addPlugin(Raven.Plugins.Ember)
-        .setRelease($("meta[name='sentry:revision']").attr('content'))
-        .setEnvironment(
-                JSON.parse(decodeURIComponent($("meta[name='ebookpull/config/environment']").attr('content')))
-                .environment
-                )
-        .install();
+        if (window.location.hostname != 'localhost') {
+            Raven
+            .config('https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958')
+            .addPlugin(Raven.Plugins.Ember)
+            .setRelease($("meta[name='sentry:revision']").attr('content'))
+            .setEnvironment(
+                    JSON.parse(decodeURIComponent($("meta[name='ebookpull/config/environment']").attr('content')))
+                    .environment
+                    )
+            .install();
+        }
     </script>
     <script src="{{rootURL}}assets/ebookpull.js"></script>
 
