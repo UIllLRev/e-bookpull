@@ -17,9 +17,11 @@ module.exports = function(deployTarget) {
           sentryBearerApiKey: '0d38300cdb494c0e80bf2a09ce2f3b838a06d13e6a2640b9a605bf66752408c8'
       };
       ENV['scp'] = {
-          username: 'ilr_dev',
-          host: 'chain-lightning.dreamhost.com',
-          path: 'dev.illinoislawreview.org/members/bookpull'
+          nodes: [{
+              username: 'ilr_dev',
+              host: 'chain-lightning.dreamhost.com',
+              path: 'dev.illinoislawreview.org/members/bookpull'
+          }]
       };
     // configure other plugins for development deploy target here
   }
