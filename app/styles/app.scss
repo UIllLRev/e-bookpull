@@ -22,6 +22,11 @@ $color-accent: "232,119,34";
     width: 40%;
 }
 
+#title {
+    font-family: Times New Roman;
+    font-variant: small-caps;
+}
+
 .mdl-button--fab {
     position: fixed;
     bottom: 1rem;
@@ -32,25 +37,7 @@ $color-accent: "232,119,34";
       cursor: pointer;
 }
 
-.breadcrumb {
-    list-style: none;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-}
-.breadcrumb li {
-    float: left;
-    padding-left: 2pt;
-    position: relative;
-    display: block;
-}
-.breadcrumb li:first-child {
-    padding-left: 0;
-}
-.breadcrumb li a {
-    text-decoration: none;
-}
-.breadcrumb li a:after {
+.breadcrumb a:after {
     content: "\27a4";
     padding-left: 2pt;
 }
