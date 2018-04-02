@@ -3,25 +3,15 @@
 <tr>
 <th></th>
 <th></th>
-<th {{action 'changesort' 'author'}} class="mdl-data-table__cell--non-numeric">Author
-{{{if (and (eq sortKey 'author') (eq sortOrder 'asc')) '&#9650;'}}}
-{{{if (and (eq sortKey 'author') (eq sortOrder 'desc')) '&#9660;'}}}
+<th {{action 'changesort' 'author'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'author') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'author') (eq sortOrder 'desc')) 'active-sort-desc'}}">Author
 </th>
-<th {{action 'changesort' 'bookpuller'}} class="mdl-data-table__cell--non-numeric">Bookpuller
-{{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'asc')) '&#9650;'}}}
-{{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'desc')) '&#9660;'}}}
+<th {{action 'changesort' 'bookpuller'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'bookpuller') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'desc')) 'active-sort-desc'}}">Bookpuller
 </th>
-<th {{action 'changesort' 'volume'}}>Volume
-{{{if (and (eq sortKey 'volume') (eq sortOrder 'asc')) '&#9650;'}}}
-{{{if (and (eq sortKey 'volume') (eq sortOrder 'desc')) '&#9660;'}}}
+<th {{action 'changesort' 'volume'}} class="{{if (and (eq sortKey 'volume') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'volume') (eq sortOrder 'desc')) 'active-sort-desc'}}">Volume
 </th>
-<th {{action 'changesort' 'issue'}}>Issue
-{{{if (and (eq sortKey 'issue') (eq sortOrder 'asc')) '&#9650;'}}}
-{{{if (and (eq sortKey 'issue') (eq sortOrder 'desc')) '&#9660;'}}}
+<th {{action 'changesort' 'issue'}} class="{{if (and (eq sortKey 'issue') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'issue') (eq sortOrder 'desc')) 'active-sort-desc'}}">Issue
 </th>
-<th {{action 'changesort' 'title'}} class="mdl-data-table__cell--non-numeric">Title
-{{{if (and (eq sortKey 'title') (eq sortOrder 'asc')) '&#9650;'}}}
-{{{if (and (eq sortKey 'title') (eq sortOrder 'desc')) '&#9660;'}}}
+<th {{action 'changesort' 'title'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'title') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'title') (eq sortOrder 'desc')) 'active-sort-desc'}}">Title
 </th>
 </tr>
 </thead>

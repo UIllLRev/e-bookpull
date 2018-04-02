@@ -18,6 +18,16 @@ $color-accent: "232,119,34";
     text-overflow: ellipsis;
 }
 
+.active-sort-asc:after {
+    content: '\25b2';
+    padding-left: '2pt';
+}
+
+.active-sort-desc:after {
+    content: '\25bc';
+    padding-left: '2pt';
+}
+
 .citation-column {
     width: 40%;
 }
