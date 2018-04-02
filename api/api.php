@@ -3,7 +3,8 @@
 require 'sentry.php';
 include 'config.php';
 
-function db_connect($connection_string, $user, $pass) {
+function db_connect($connection_string, $user, $pass)
+{
     try {
         return new PDO($connection_string, $user, $pass, array(
             PDO::ATTR_PERSISTENT => true
@@ -13,18 +14,24 @@ function db_connect($connection_string, $user, $pass) {
     }
 }
 
-function get_dbh() {
+function get_dbh()
+{
     global $config;
-    $dbh = db_connect($config['db_connection_string'], $config['db_username'],
-        $config['db_password']);
+    $dbh = db_connect(
+        $config['db_connection_string'],
+        $config['db_username'],
+        $config['db_password']
+    );
     $dbh->query("SET sql_mode='TRADITIONAL'");
     return $dbh;
 }
 
-function work_list() {
+function work_list()
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller` FROM `works`');
+        'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller` FROM `works`'
+    );
     $stmt->execute();
 
     $stmt2 = $dbh->prepare('SELECT `id`, `author_code` FROM `sources`');
@@ -43,7 +50,7 @@ function work_list() {
     }
 
     $result = array();
-    foreach($stmt->fetchAll() as $row) {
+    foreach ($stmt->fetchAll() as $row) {
         $result[] = array(
             'id'          => $row['author_code'],
             'type'        => 'work',
@@ -68,11 +75,13 @@ function work_list() {
     );
 }
 
-function work_get($id) {
+function work_get($id)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `author_code`, `author_name`, `article_name`, `volume`, `issue`, `comments`, `bookpuller`'
-       .' FROM `works` WHERE `author_code` = ?');
+       .' FROM `works` WHERE `author_code` = ?'
+    );
     $stmt->bindValue(1, $id);
     $stmt->execute();
     $sources = source_list_by_work($id);
@@ -109,7 +118,8 @@ function work_get($id) {
     }
 }
 
-function work_insert($data) {
+function work_insert($data)
+{
     if ($data['type'] != 'work') {
         throw new Exception('Invalid work', 400);
     }
@@ -147,7 +157,8 @@ function work_insert($data) {
         . join(',', $params)
         .') VALUES ('
         . join(',', array_slice(array('?', '?', '?', '?', '?', '?'), 0, count($vals)))
-        . ')');
+        . ')'
+    );
 
     $value_no = 1;
     foreach ($vals as $val) {
@@ -161,7 +172,8 @@ function work_insert($data) {
     return work_get($dbh->lastInsertId());
 }
 
-function work_modify($id, $data) {
+function work_modify($id, $data)
+{
     if ($data['type'] != 'work' || !isset($data['id'])) {
         throw new Exception('Invalid work', 400);
     }
@@ -198,7 +210,8 @@ function work_modify($id, $data) {
         $stmt = $dbh->prepare(
             'UPDATE `works` SET'
             . join(',', $params)
-            .' WHERE `author_code` = ?');
+            .' WHERE `author_code` = ?'
+        );
 
         $value_no = 1;
         foreach ($vals as $val) {
@@ -213,10 +226,12 @@ function work_modify($id, $data) {
     return work_get($id);
 }
 
-function work_delete($id) {
+function work_delete($id)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
-        'SELECT `author_name` FROM `works` WHERE `author_code` = ?');
+        'SELECT `author_name` FROM `works` WHERE `author_code` = ?'
+    );
     $stmt->bindValue(1, $id);
     $stmt->execute();
 
@@ -235,15 +250,17 @@ function work_delete($id) {
     return true;
 }
 
-function source_list() {
+function source_list()
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `id`, `author_code`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
-       .' FROM `sources`');
+       .' FROM `sources`'
+    );
     $stmt->execute();
 
     $result = array();
-    foreach($stmt->fetchAll() as $row) {
+    foreach ($stmt->fetchAll() as $row) {
         $result[] = array(
             'id'          => $row['id'],
             'type'        => 'source',
@@ -271,16 +288,18 @@ function source_list() {
     );
 }
 
-function source_list_by_work($work_id) {
+function source_list_by_work($work_id)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `id`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
-       .' FROM `sources` WHERE `author_code` = ?');
+       .' FROM `sources` WHERE `author_code` = ?'
+    );
     $stmt->bindValue(1, $work_id, PDO::PARAM_INT);
     $stmt->execute();
 
     $result = array();
-    foreach($stmt->fetchAll() as $row) {
+    foreach ($stmt->fetchAll() as $row) {
         $result[] = array(
             'id'          => $row['id'],
             'type'        => 'source',
@@ -308,11 +327,13 @@ function source_list_by_work($work_id) {
     );
 }
 
-function source_get($id) {
+function source_get($id)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'SELECT `author_code`, `type`, `citation`, `url`, `comments`, `ordered`, `status_code`'
-       .' FROM `sources` WHERE `id` = ?');
+       .' FROM `sources` WHERE `id` = ?'
+    );
     $stmt->bindValue(1, $id);
     $stmt->execute();
     if ($row = $stmt->fetch()) {
@@ -343,7 +364,8 @@ function source_get($id) {
     }
 }
 
-function source_insert($author_id, $type, $citation, $url, $comments, $ordered, $status) {
+function source_insert($author_id, $type, $citation, $url, $comments, $ordered, $status)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare('INSERT INTO `sources`'
         .'(`author_code`, `type`, `citation`, `url`,`comments`, `ordered`,`status_code`)'
@@ -364,7 +386,8 @@ function source_insert($author_id, $type, $citation, $url, $comments, $ordered, 
     );
 }
 
-function source_modify($id, $data) {
+function source_modify($id, $data)
+{
     if ($data['type'] != 'source' || !isset($data['id'])) {
         throw new Exception('Invalid source', 400);
     }
@@ -404,7 +427,8 @@ function source_modify($id, $data) {
         $stmt = $dbh->prepare(
             'UPDATE `sources` SET'
             . join(',', $params)
-            .' WHERE `id` = ?');
+            .' WHERE `id` = ?'
+        );
 
         $value_no = 1;
         foreach ($vals as $val) {
@@ -420,7 +444,8 @@ function source_modify($id, $data) {
     return source_get($id);
 }
 
-function source_delete($id) {
+function source_delete($id)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare('DELETE FROM `sources` WHERE `id` = ?');
     $stmt->bindValue(1, $id, PDO::PARAM_INT);
@@ -428,7 +453,8 @@ function source_delete($id) {
     return true;
 }
 
-function parse_request_uri($uri) {
+function parse_request_uri($uri)
+{
     global $config;
     if (substr($uri, 0, strlen($config['path_prefix'])) == $config['path_prefix']) {
         $uri = substr($uri, strlen($config['path_prefix']));
@@ -449,9 +475,10 @@ function parse_request_uri($uri) {
     }
 }
 
-function handle_request($params, $data) {
+function handle_request($params, $data)
+{
     global $config;
-    switch($params['resource_type']) {
+    switch ($params['resource_type']) {
     case 'works':
         if ($params['resource_id'] != null) {
             switch ($_SERVER['REQUEST_METHOD']) {
@@ -510,8 +537,15 @@ function handle_request($params, $data) {
                 $res = source_list();
                 break;
             case 'POST':
-                $res = source_insert($params['resource_id'], $_REQUEST['type'], $_REQUEST['citation'],
-                    $_REQUEST['url'], $_REQUEST['comments'], $_REQUEST['ordered'], $_REQUEST['status']);
+                $res = source_insert(
+                    $params['resource_id'],
+                    $_REQUEST['type'],
+                    $_REQUEST['citation'],
+                    $_REQUEST['url'],
+                    $_REQUEST['comments'],
+                    $_REQUEST['ordered'],
+                    $_REQUEST['status']
+                );
                 break;
             case 'OPTIONS':
                 $res = true;
@@ -560,4 +594,3 @@ try {
         header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
     }
 }
-?>

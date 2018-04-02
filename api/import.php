@@ -3,7 +3,8 @@
 require 'sentry.php';
 include 'config.php';
 
-function db_connect($connection_string, $user, $pass) {
+function db_connect($connection_string, $user, $pass)
+{
     try {
         return new PDO($connection_string, $user, $pass, array(
             PDO::ATTR_PERSISTENT => true
@@ -13,15 +14,20 @@ function db_connect($connection_string, $user, $pass) {
     }
 }
 
-function get_dbh() {
+function get_dbh()
+{
     global $config;
-    $dbh = db_connect($config['db_connection_string'], $config['db_username'],
-        $config['db_password']);
+    $dbh = db_connect(
+        $config['db_connection_string'],
+        $config['db_username'],
+        $config['db_password']
+    );
     $dbh->query("SET sql_mode='TRADITIONAL'");
     return $dbh;
 }
 
-function import_file($id, $file) {
+function import_file($id, $file)
+{
     $dbh = get_dbh();
     $stmt = $dbh->prepare(
         'INSERT INTO `sources` (`author_code`, `type`, `citation`) VALUES (?, ?, ?)'
@@ -44,7 +50,8 @@ function import_file($id, $file) {
     return true;
 }
 
-function parse_request_uri($uri) {
+function parse_request_uri($uri)
+{
     global $config;
     if (substr($uri, 0, strlen($config['path_prefix'])) == $config['path_prefix']) {
         $uri = substr($uri, strlen($config['path_prefix']));
@@ -60,7 +67,8 @@ function parse_request_uri($uri) {
     }
 }
 
-function handle_request($params, $data) {
+function handle_request($params, $data)
+{
     if ($params['resource_id'] != null) {
         switch ($_SERVER['REQUEST_METHOD']) {
         case 'POST':
@@ -95,4 +103,3 @@ try {
         header($_SERVER['SERVER_PROTOCOL'].' 500 Internal Server Error');
     }
 }
-?>
