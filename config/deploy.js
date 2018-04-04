@@ -2,20 +2,20 @@
 
 module.exports = function(deployTarget) {
   var ENV = {
-    build: {}
+    build: {},
+    sentry: {
+        publicUrl: 'https://dev.illinoislawreview.org/members/bookpull',
+        sentryUrl: 'https://sentry.io',
+        sentryOrganizationSlug: 'illinois-law-review',
+        sentryProjectSlug: 'frontend',
+        sentryApiKey: 'unusedbutneverthelessrequired',
+        sentryBearerApiKey: '0d38300cdb494c0e80bf2a09ce2f3b838a06d13e6a2640b9a605bf66752408c8'
+    }
     // include other plugin configuration that applies to all deploy targets here
   };
 
   if (deployTarget === 'development') {
     ENV.build.environment = 'development';
-      ENV['sentry'] = {
-          publicUrl: 'https://dev.illinoislawreview.org/members/bookpull',
-          sentryUrl: 'https://sentry.io',
-          sentryOrganizationSlug: 'illinois-law-review',
-          sentryProjectSlug: 'frontend',
-          sentryApiKey: 'unusedbutneverthelessrequired',
-          sentryBearerApiKey: '0d38300cdb494c0e80bf2a09ce2f3b838a06d13e6a2640b9a605bf66752408c8'
-      };
       ENV['scp'] = {
           nodes: [{
               username: 'ilr_dev',
@@ -34,14 +34,6 @@ module.exports = function(deployTarget) {
   if (deployTarget === 'production') {
       ENV.build.environment = 'production';
       // configure other plugins for production deploy target here
-      ENV['sentry'] = {
-          publicUrl: 'https://illinoislawreview.org/members/bookpull',
-          sentryUrl: 'https://sentry.io',
-          sentryOrganizationSlug: 'illinois-law-review',
-          sentryProjectSlug: 'frontend',
-          sentryApiKey: 'unusedbutneverthelessrequired',
-          sentryBearerApiKey: '0d38300cdb494c0e80bf2a09ce2f3b838a06d13e6a2640b9a605bf66752408c8'
-      };
       ENV['scp'] = {
           nodes: [{
               username: 'ilr',
