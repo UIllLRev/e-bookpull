@@ -1,10 +1,14 @@
 /* jshint node: true */
 
+var gitRepoInfo = require('git-repo-info');
+
 module.exports = function(deployTarget) {
   var ENV = {
     build: {},
     sentry: {
         publicUrl: 'https://dev.illinoislawreview.org/members/bookpull',
+        repository: process.env.REPOSITORY,
+        revisionKey: gitRepoInfo().sha,
         sentryUrl: 'https://sentry.io',
         sentryOrganizationSlug: 'illinois-law-review',
         sentryProjectSlug: 'frontend',
