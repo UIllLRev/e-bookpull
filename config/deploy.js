@@ -9,7 +9,7 @@ module.exports = function(deployTarget) {
         sentryOrganizationSlug: 'illinois-law-review',
         sentryProjectSlug: 'frontend',
         sentryApiKey: 'unusedbutneverthelessrequired',
-        sentryBearerApiKey: '0d38300cdb494c0e80bf2a09ce2f3b838a06d13e6a2640b9a605bf66752408c8'
+        sentryBearerApiKey: process.env.SENTRY_AUTH_TOKEN
     }
     // include other plugin configuration that applies to all deploy targets here
   };
