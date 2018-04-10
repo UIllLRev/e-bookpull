@@ -51,7 +51,7 @@ export default Component.extend({
         },
         save: function() {
             var url = this.get('model').get('url');
-            if (url.length > 0 && !url.startsWith(config.rootURL) && !url.startsWith('http://') && !url.startsWith('https://'))
+            if (url != null && url.length > 0 && !url.startsWith(config.rootURL) && !url.startsWith('http://') && !url.startsWith('https://'))
             {
                 alert('Invalid URL. It must begin with "' + config.rootURL + '" (for uploaded files) or "http://" or "https://".');
                 return;
