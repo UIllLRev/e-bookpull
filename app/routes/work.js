@@ -2,7 +2,7 @@ import EmberRoute from '@ember/routing/route';
 
 export default EmberRoute.extend({
     model(params) {
-        return this.store.find('work', params.work_id);
+        return this.store.findRecord('work', params.work_id, {include: 'sources'});
     },
     afterModel(model) {
         const author = model.get('author');

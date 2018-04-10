@@ -14,9 +14,7 @@ export default Controller.extend({
             return false;
         },
         sources(work) {
-           // this forces a reload of the work before entering the work route
-           // this gets all of the sources in one request - WAY faster
-            this.transitionToRoute('work.sources', work.reload());
+            this.transitionToRoute('work.sources', work);
         },
         changesort(newkey) {
             if (this.get('sortKey') == newkey && this.get('sortOrder') == 'asc') {
