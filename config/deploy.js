@@ -6,7 +6,7 @@ module.exports = function(deployTarget) {
   var ENV = {
     build: {},
     sentry: {
-        publicUrl: 'https://dev.illinoislawreview.org/members/bookpull',
+        publicUrl: '~/members/bookpull',
         repository: process.env.REPOSITORY,
         revisionKey: gitRepoInfo().sha,
         sentryUrl: 'https://sentry.io',
