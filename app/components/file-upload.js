@@ -6,7 +6,7 @@ export default EmberUploader.FileField.extend({
     attributeBindings: ['type', 'multiple', 'disabled'],
     filesDidChange: function(files) {
         const uploader = EmberUploader.Uploader.create({
-            url: config.rootURL + "api/" + this.get('endpoint') + "/" + this.get('work').get('id')
+            url: config.rootURL + "api/2/" + this.get('endpoint') + "/" + this.get('work').get('id')
         });
         uploader.on('progress', e => {
             // eslint-disable-next-line ember/closure-actions
