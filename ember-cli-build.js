@@ -33,11 +33,5 @@ module.exports = function(defaults) {
   app.import(app.bowerDirectory + '/raven-js/dist/raven.js');
   app.import(app.bowerDirectory + '/raven-js/dist/plugins/ember.js');
 
-  let api = new Funnel('api', {
-      srcDir: '/',
-      include: ['**/*.php', '.htaccess'],
-      destDir: '/api'
-  });
-
-  return app.toTree(api);
+  return app.toTree();
 };
