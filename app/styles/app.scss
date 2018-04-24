@@ -3,6 +3,12 @@ $color-accent: "232,119,34";
 @import 'material-design-lite';
 @import 'ember-power-select';
 
+.loading-spinner {
+    position: fixed;
+    left: 49%;
+    top: 49%;
+}
+
 .source-table {
     table-layout: fixed;
     width: 100%;
