@@ -6,7 +6,8 @@ moduleFor('adapter:application', 'Unit | Adapter | application', {
 });
 
 // Replace this with your real tests.
-test('it exists', function(assert) {
+test('buildQuery appends page size', function(assert) {
   let adapter = this.subject();
-  assert.ok(adapter);
+  assert.deepEqual(adapter.buildQuery({}), { "page": { "size": 0 } });
+  assert.deepEqual(adapter.buildQuery({"include": "sources"}), { "include": "sources", "page": { "size": 0 } });
 });
