@@ -6,6 +6,20 @@ import { get } from '@ember/object';
 module('Unit | Model | work', function(hooks) {
   setupTest(hooks);
 
+  test('should contain attributes', function(assert) {
+    let store = this.owner.lookup('service:store');
+    //let model = run(() => store.createRecord('work', {}));
+
+    let Work = store.modelFor('work');
+    let attributes = get(Work, 'attributes');
+    assert.equal(attributes.get('author').type, 'string', 'author is a string');
+    assert.equal(attributes.get('title').type, 'string', 'title is a string');
+    assert.equal(attributes.get('volume').type, 'number', 'volume is a number');
+    assert.equal(attributes.get('issue').type, 'number', 'issue is a number');
+    assert.equal(attributes.get('comments').type, 'string', 'comments is a string');
+    assert.equal(attributes.get('bookpuller').type, 'string', 'bookpuller is a string');
+  });
+
   test('should have sources', function(assert) {
     let store = this.owner.lookup('service:store');
     //let model = run(() => store.createRecord('work', {}));
