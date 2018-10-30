@@ -1,11 +1,12 @@
 import { isEmpty } from '@ember/utils';
-import EmberUploader from 'ember-uploader';
+import FileField from 'ember-uploader/components/file-field';
+import Uploader from 'ember-uploader/uploaders/uploader';
 import config from 'ebookpull/config/environment';
 
-export default EmberUploader.FileField.extend({
+export default FileField.extend({
     attributeBindings: ['type', 'multiple', 'disabled'],
     filesDidChange: function(files) {
-        const uploader = EmberUploader.Uploader.create({
+        const uploader = Uploader.create({
             url: config.rootURL + "api/2/" + this.get('endpoint') + "/" + this.get('work').get('id')
         });
         uploader.on('progress', e => {
