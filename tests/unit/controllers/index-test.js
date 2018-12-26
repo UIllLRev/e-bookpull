@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:index', 'Unit | Controller | index', {
-  // Specify the other units that are required for this test.
-  needs: ['service:dialogService']
+    integration: true
 });
 
 // Replace this with your real tests.

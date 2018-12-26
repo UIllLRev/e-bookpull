@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('controller:work/sources', 'Unit | Controller | work/sources', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+    integration: true
 });
 
 test('sources are filtered', function(assert) {
