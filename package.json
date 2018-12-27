@@ -42,7 +42,7 @@
     "ember-cli-sri": "~2.1",
     "ember-cli-uglify": "~2.1",
     "ember-crumbly": "~3.0",
-    "ember-data": "~3.1",
+    "ember-data": "~3.6",
     "ember-export-application-global": "^2.0",
     "ember-load-initializers": "~2.0",
     "ember-material-lite": "~1.0",
