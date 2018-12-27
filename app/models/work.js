@@ -9,6 +9,6 @@ export default Model.extend({
     issue: attr('number'),
     comments: attr('string'),
     bookpuller: attr('string'),
-    sources: hasMany('source', {async: true})
+    sources: hasMany('source')
 });
 

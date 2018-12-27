@@ -9,5 +9,5 @@ export default Model.extend({
     comments: attr('string'),
     ordered: attr('date'),
     status: attr('string'),
-    work: belongsTo('work', {async: true})
+    work: belongsTo('work')
 });
