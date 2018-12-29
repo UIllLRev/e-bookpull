@@ -12,7 +12,6 @@ module.exports = function(deployTarget) {
         sentryUrl: 'https://sentry.io',
         sentryOrganizationSlug: 'illinois-law-review',
         sentryProjectSlug: 'frontend',
-        sentryApiKey: 'unusedbutneverthelessrequired',
         sentryBearerApiKey: process.env.SENTRY_AUTH_TOKEN
     }
     // include other plugin configuration that applies to all deploy targets here
