@@ -10,7 +10,14 @@ Sentry.init({
     dsn: 'https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958',
     integrations: [new Sentry.Integrations.Ember()],
     release: release !== undefined ? release.value : '',
-    environment: config.environment
+    environment: config.environment,
+    beforeSend: function (event) {
+        if (event.exception) {
+            Sentry.showReportDialog({subtitle: "Matt Loar has been notified."});
+        }
+
+        return event;
+    }
 });
 
 let App;
