@@ -9,11 +9,9 @@ module.exports = {
   ],
   browser_args: {
     Chrome: {
-      mode: 'ci',
-      args: [
+      ci: [
         // --no-sandbox is needed when running Chrome inside a container
         '--no-sandbox',
-
         '--disable-gpu',
         '--headless',
         '--disable-features=VizDisplayCompositor',
