@@ -1,32 +1,37 @@
 <table id="works" class="mdl-data-table mdl-js-data-table">
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th {{action 'changesort' 'author'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'author') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'author') (eq sortOrder 'desc')) 'active-sort-desc'}}">Author
-</th>
-<th {{action 'changesort' 'bookpuller'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'bookpuller') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'bookpuller') (eq sortOrder 'desc')) 'active-sort-desc'}}">Bookpuller
-</th>
-<th {{action 'changesort' 'volume'}} class="{{if (and (eq sortKey 'volume') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'volume') (eq sortOrder 'desc')) 'active-sort-desc'}}">Volume
-</th>
-<th {{action 'changesort' 'issue'}} class="{{if (and (eq sortKey 'issue') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'issue') (eq sortOrder 'desc')) 'active-sort-desc'}}">Issue
-</th>
-<th {{action 'changesort' 'title'}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey 'title') (eq sortOrder 'asc')) 'active-sort-asc'}}{{if (and (eq sortKey 'title') (eq sortOrder 'desc')) 'active-sort-desc'}}">Title
-</th>
-</tr>
-</thead>
-<tbody>
-{{#each sorted as |work|}}
-<tr>
-<td>{{#mdl-button isRaised=true click=(action 'edit' work)}} Edit {{/mdl-button}}</td>
-<td>{{#mdl-button isRaised=true click=(action 'sources' work)}} Sources {{/mdl-button}}</td>
-<td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
-<td class="mdl-data-table__cell--non-numeric">{{work.bookpuller}}</td>
-<td>{{work.volume}}</td>
-<td>{{work.issue}}</td>
-<td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
-</tr>
-{{/each}}
-</tbody>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th role="button" {{action "changesort" "author"}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey "author") (eq sortOrder "asc")) "active-sort-asc"}}{{if (and (eq sortKey "author") (eq sortOrder "desc")) "active-sort-desc"}}">
+        Author
+      </th>
+      <th role="button" {{action "changesort" "bookpuller"}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey "bookpuller") (eq sortOrder "asc")) "active-sort-asc"}}{{if (and (eq sortKey "bookpuller") (eq sortOrder "desc")) "active-sort-desc"}}">
+        Bookpuller
+      </th>
+      <th role="button" {{action "changesort" "volume"}} class="{{if (and (eq sortKey "volume") (eq sortOrder "asc")) "active-sort-asc"}}{{if (and (eq sortKey "volume") (eq sortOrder "desc")) "active-sort-desc"}}">
+        Volume
+      </th>
+      <th role="button" {{action "changesort" "issue"}} class="{{if (and (eq sortKey "issue") (eq sortOrder "asc")) "active-sort-asc"}}{{if (and (eq sortKey "issue") (eq sortOrder "desc")) "active-sort-desc"}}">
+        Issue
+      </th>
+      <th role="button" {{action "changesort" "title"}} class="mdl-data-table__cell--non-numeric {{if (and (eq sortKey "title") (eq sortOrder "asc")) "active-sort-asc"}}{{if (and (eq sortKey "title") (eq sortOrder "desc")) "active-sort-desc"}}">
+        Title
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each sorted as |work|}}
+      <tr>
+        <td>{{#mdl-button isRaised=true click=(action "edit" work)}} Edit {{/mdl-button}}</td>
+        <td>{{#mdl-button isRaised=true click=(action "sources" work)}} Sources {{/mdl-button}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{work.author}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{work.bookpuller}}</td>
+        <td>{{work.volume}}</td>
+        <td>{{work.issue}}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{work.title}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
-{{mdl-button isFloating=true icon='add' click=(action 'add')}}
+{{mdl-button isFloating=true icon="add" click=(action "add")}}

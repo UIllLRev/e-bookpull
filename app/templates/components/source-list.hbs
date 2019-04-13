@@ -1,40 +1,44 @@
 <table class="mdl-data-table mdl-js-data-table source-table">
-<col>
-<col class="citation-column">
-<col>
-<col>
-<col>
-<col>
-<thead>
-<th class="mdl-data-table__cell--non-numeric"></th>
-<th class="mdl-data-table__cell--non-numeric">Citation</th>
-<th class="mdl-data-table__cell--non-numeric">URL</th>
-<th class="mdl-data-table__cell--non-numeric">Ordered</th>
-<th class="mdl-data-table__cell--non-numeric">Comments</th>
-<th class="mdl-data-table__cell--non-numeric">Status</th>
-</thead>
-<tbody>
-{{#each category as |source|}}
-<tr>
-<td>{{#mdl-button isRaised=true click=(action 'edit' source)}} Edit {{/mdl-button}}</td>
-<td class="mdl-data-table__cell--non-numeric" style="white-space:normal">
-{{source.citation}}
-</td>
-<td class="mdl-data-table__cell--non-numeric">
-{{#if source.url}}
-<a href="{{source.url}}">Link</a>
-{{/if}}
-</td>
-<td class="mdl-data-table__cell--non-numeric">
-{{date-render source.ordered}}
-</td>
-<td class="mdl-data-table__cell--non-numeric" style="white-space:normal">
-{{source.comments}}
-</td>
-<td class="mdl-data-table__cell--non-numeric">
-{{source-status source.status}}
-</td>
-</tr>
-{{/each}}
-</tbody>
+  <colgroup>
+    <col>
+    <col class="citation-column">
+    <col>
+    <col>
+    <col>
+    <col>
+  </colgroup>
+  <thead>
+    <th class="mdl-data-table__cell--non-numeric"></th>
+    <th class="mdl-data-table__cell--non-numeric">Citation</th>
+    <th class="mdl-data-table__cell--non-numeric">URL</th>
+    <th class="mdl-data-table__cell--non-numeric">Ordered</th>
+    <th class="mdl-data-table__cell--non-numeric">Comments</th>
+    <th class="mdl-data-table__cell--non-numeric">Status</th>
+  </thead>
+  <tbody>
+    {{#each category as |source|}}
+      <tr>
+        <td>
+          {{#mdl-button isRaised=true click=(action "edit" source)}} Edit {{/mdl-button}}
+        </td>
+        <td class="mdl-data-table__cell--non-numeric wraptext">
+          {{source.citation}}
+        </td>
+        <td class="mdl-data-table__cell--non-numeric">
+          {{#if source.url}}
+            <a href={{source.url}}>Link</a>
+          {{/if}}
+        </td>
+        <td class="mdl-data-table__cell--non-numeric">
+          {{date-render source.ordered}}
+        </td>
+        <td class="mdl-data-table__cell--non-numeric wraptext">
+          {{source.comments}}
+        </td>
+        <td class="mdl-data-table__cell--non-numeric">
+          {{source-status source.status}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>

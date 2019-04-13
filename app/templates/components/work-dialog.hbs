@@ -1,20 +1,20 @@
 <dialog class="mdl-dialog">
-<h4 class="mdl-dialog__title">Edit Work</h4>
-<div class="mdl-dialog__content">
-<form>
-{{my-mdl-textfield label='Author' value=model.author}}
-{{my-mdl-textfield label='Title' value=model.title}}
-{{my-mdl-textfield label='Volume' value=model.volume}}
-{{my-mdl-textfield label='Issue' value=model.issue}}
-{{my-mdl-textarea label='Comments' value=model.comments}}
-{{my-mdl-textarea label='Bookpuller' value=model.bookpuller}}
-{{file-upload label="Upload File" endpoint='import' work=model disabled=model.isNew complete='uploadComplete' progress='uploadProgress' error='uploadError'}}
-{{my-mdl-progress progress=fileUploadProgress}}
-</form>
-</div>
-<div class="mdl-dialog__actions">
-{{#mdl-button isRaised=true click=(action 'save')}} Save {{/mdl-button}}
-{{#mdl-button isRaised=true isAccent=true click=(action 'close')}} Cancel {{/mdl-button}}
-{{#mdl-button isRaised=true click=(action 'delete')}} <i class="material-icons">delete_forever</i> {{/mdl-button}}
-</div>
+  <h4 class="mdl-dialog__title">Edit Work</h4>
+  <div class="mdl-dialog__content">
+    <form>
+      {{my-mdl-textfield label="Author" value=model.author}}
+      {{my-mdl-textfield label="Title" value=model.title}}
+      {{my-mdl-textfield label="Volume" value=model.volume}}
+      {{my-mdl-textfield label="Issue" value=model.issue}}
+      {{my-mdl-textarea label="Comments" value=model.comments}}
+      {{my-mdl-textarea label="Bookpuller" value=model.bookpuller}}
+      {{file-upload label="Upload File" endpoint="import" work=model disabled=model.isNew complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
+      {{my-mdl-progress progress=fileUploadProgress}}
+    </form>
+  </div>
+  <div class="mdl-dialog__actions">
+    {{#mdl-button isRaised=true click=(action "save")}} Save {{/mdl-button}}
+    {{#mdl-button isRaised=true isAccent=true click=(action "close")}} Cancel {{/mdl-button}}
+    {{#mdl-button isRaised=true click=(action "delete")}} <i class="material-icons">delete_forever</i> {{/mdl-button}}
+  </div>
 </dialog>
