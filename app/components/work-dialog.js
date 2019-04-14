@@ -35,6 +35,8 @@ export default Component.extend({
             this.get('model').save().then(() => {
                 this.set('model', null);
                 this.set('fileUploadProgress', 0);
+            }).catch(() => {
+                alert('Sorry, there was an error saving to the server. Please try again.');
             });
         },
         close: function() {
