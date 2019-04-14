@@ -1,17 +1,13 @@
-<header class="mdc-layout__header mdc-layout__header--scroll mdc-color--primary">
-  <div class="mdc-layout--large-screen-only mdc-layout__header-row">
-    <h3 id="title">University of Illinois Law Review</h3>
-  </div>
-  <div class="mdc-layout__header-row">
-    <span class="mdc-layout-title">E-Bookpull System</span>
-    <div class="mdc-layout-spacer"></div>
-    {{#bread-crumbs tagName="nav" linkable=true class="mdc-navigation" linkClass="mdc-navigation__link" as |component crumb|}}
-      {{#bread-crumb tagName="span" route=crumb breadCrumbs=component}}
-        {{crumb.title}}
-      {{/bread-crumb}}
-    {{/bread-crumbs}}
-  </div>
-</header>
-<main class="mdc-layout__content">
+{{#mdc-top-app-bar style="dense"}}
+  {{#mdc-top-app-bar-row}}
+    {{#mdc-top-app-bar-section}}
+      {{#if isWorkRoute}}
+        {{mdc-top-app-bar-navigate-up-to "index"}}
+      {{/if}}
+      {{#mdc-top-app-bar-title}}{{title}}{{/mdc-top-app-bar-title}}
+    {{/mdc-top-app-bar-section}}
+  {{/mdc-top-app-bar-row}}
+{{/mdc-top-app-bar}}
+{{#mdc-content}}
   {{outlet}}
-</main>
+{{/mdc-content}}

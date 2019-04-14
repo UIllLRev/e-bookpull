@@ -6,17 +6,7 @@ export default EmberRoute.extend({
     },
     afterModel(model) {
         const author = model.get('author');
-
-        const crumbs = [{
-            title: 'Home',
-            path: 'index',
-            linkable: true
-        },
-        {
-            title: author,
-            linkable: false
-        }];
-
-        this.set('breadCrumbs', crumbs);
+        this.controllerFor('application').set('isWorkRoute', true);
+        this.controllerFor('application').set('title', author);
     }
 });
