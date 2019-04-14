@@ -1,20 +1,52 @@
 {{#mdc-dialog show=showDialog title="Edit Source" accepting=(action "save") closing=(action "close")}}
   <form>
-    <div class="mdc-textfield mdc-js-textfield">
-      {{#power-select placeholder="Type" renderInPlace=true selected=model.type options=types onchange=(action (mut model.type)) as |name|}}
-        {{source-type name}}
-      {{/power-select}}
-    </div>
-    {{mdc-textfield value=model.citation label="Citation"}}
-    {{mdc-textfield value=model.url label="URL" pattern="(https?://|/).*"}}
-    {{file-upload label="Upload File" endpoint="upload" work=model.work complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
-    {{mdc-linear-progress progress=fileUploadProgress}}
-    {{mdc-textarea value=model.comments label="Comments"}}
-    <div class="mdc-textfield mdc-js-textfield">
-      {{#power-select placeholder="Status" renderInPlace=true selected=model.status options=statuses onchange=(action (mut model.status)) as |name|}}
-        {{source-status name}}
-      {{/power-select}}
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            {{#mdc-select label="Type" value=model.type}}
+              {{#each types as |name|}}
+                {{#mdc-select-option value=name}}{{source-type name}}{{/mdc-select-option}}
+              {{/each}}
+            {{/mdc-select}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textfield value=model.citation label="Citation"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textfield value=model.url label="URL" pattern="(https?://|/).*"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{file-upload label="Upload File" endpoint="upload" work=model.work complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-linear-progress progress=fileUploadProgress}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textarea value=(if model.comments model.comments "") label="Comments"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{#mdc-select label="Status" value=model.status}}
+              {{#each statuses as |name|}}
+                {{#mdc-select-option value=name}}{{source-status name}}{{/mdc-select-option}}
+              {{/each}}
+            {{/mdc-select}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </form>
   <footer class="mdc-dialog__actions">
     {{#mdc-dialog-button style="raised" action="accept" disabled=saveDisabled}} {{saveButtonText}} {{/mdc-dialog-button}}
