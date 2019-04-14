@@ -1,8 +1,6 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
 
 export default Component.extend({
-    dialogService: inject(),
     message: 'Are you sure?',
     title: 'Confirm',
     yes_action: null,
@@ -10,10 +8,10 @@ export default Component.extend({
     yes_message: 'Yes',
     no_message: 'No',
     didInsertElement() {
-        var dialog = this.$('dialog').get(0);
+        var dialog = this.element;
         if (! dialog.showModal) {
             // eslint-disable-next-line no-undef
-            dialogPolyfill.registerDialog(dialog);
+            //dialogPolyfill.registerDialog(dialog);
         }
         this.get('dialogService').registerConfirmDialog(this);
     },
@@ -34,19 +32,19 @@ export default Component.extend({
                props['no_message'] = no_message;
            this.setProperties(props);
 
-           var dialog = this.$('dialog').get(0);
+           var dialog = this.element;
            dialog.showModal();
        },
        yes: function() {
            // eslint-disable-next-line ember/closure-actions
            this.sendAction('yes_action');
-           var dialog = this.$('dialog').get(0);
+           var dialog = this.element;
            dialog.close();
        },
        no: function() {
            // eslint-disable-next-line ember/closure-actions
            this.sendAction('no_action');
-           var dialog = this.$('dialog').get(0);
+           var dialog = this.element;
            dialog.close();
        }
    }

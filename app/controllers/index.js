@@ -1,17 +1,11 @@
 import Controller from '@ember/controller';
-import { inject } from '@ember/service';
 import { sort } from '@ember/object/computed';
 
 export default Controller.extend({
-    dialogService: inject(),
     actions: {
         add() {
             var work = this.get('store').createRecord('work');
             this.get('dialogService').showWorkDialog(work);
-        },
-        edit(work) {
-            this.get('dialogService').showWorkDialog(work);
-            return false;
         },
         sources(work) {
             this.transitionToRoute('work.sources', work);
@@ -30,5 +24,6 @@ export default Controller.extend({
     sortKey: 'author',
     sortOrder: 'asc',
     sortedBy: Object.freeze(['author']),
-    sorted: sort('model', 'sortedBy')
+    sorted: sort('model', 'sortedBy'),
+    workToEdit: null
 });

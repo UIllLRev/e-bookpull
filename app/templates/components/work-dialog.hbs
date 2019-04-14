@@ -1,20 +1,53 @@
-<dialog class="mdl-dialog">
-  <h4 class="mdl-dialog__title">Edit Work</h4>
-  <div class="mdl-dialog__content">
-    <form>
-      {{my-mdl-textfield label="Author" value=model.author}}
-      {{my-mdl-textfield label="Title" value=model.title}}
-      {{my-mdl-textfield label="Volume" value=model.volume}}
-      {{my-mdl-textfield label="Issue" value=model.issue}}
-      {{my-mdl-textarea label="Comments" value=model.comments}}
-      {{my-mdl-textarea label="Bookpuller" value=model.bookpuller}}
-      {{file-upload label="Upload File" endpoint="import" work=model disabled=model.isNew complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
-      {{my-mdl-progress progress=fileUploadProgress}}
-    </form>
-  </div>
-  <div class="mdl-dialog__actions">
-    {{#mdl-button isRaised=true click=(action "save")}} Save {{/mdl-button}}
-    {{#mdl-button isRaised=true isAccent=true click=(action "close")}} Cancel {{/mdl-button}}
-    {{#mdl-button isRaised=true click=(action "delete")}} <i class="material-icons">delete_forever</i> {{/mdl-button}}
-  </div>
-</dialog>
+{{#mdc-dialog show=showDialog title="Edit Work"}}
+  <form>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            {{mdc-textfield label="Author" value=model.author}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textfield label="Title" value=model.title}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textfield label="Volume" value=model.volume}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textfield label="Issue" value=model.issue}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textarea label="Comments" value=model.comments}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-textarea label="Bookpuller" value=model.bookpuller}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{file-upload label="Upload File" endpoint="import" work=model disabled=model.isNew complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            {{mdc-linear-progress progress=fileUploadProgress}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+  <footer class="mdc-dialog__actions">
+    {{#mdc-dialog-button style="raised" default=true click=(action "save")}} Save {{/mdc-dialog-button}}
+    {{#mdc-dialog-button style="raised" click=(action "close")}} Cancel {{/mdc-dialog-button}}
+    {{#mdc-dialog-button style="raised" click=(action "delete")}} <i class="material-icons">delete_forever</i> {{/mdc-dialog-button}}
+  </footer>
+{{/mdc-dialog}}

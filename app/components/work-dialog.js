@@ -1,19 +1,24 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
+import { computed } from '@ember/object';
 
 export default Component.extend({
-    dialogService: inject(),
     fileUploadProgress: 0,
-    didInsertElement() {
-        var dialog = this.$('dialog').get(0);
-        if (! dialog.showModal) {
-            // eslint-disable-next-line no-undef
-            dialogPolyfill.registerDialog(dialog);
+    // Can't use bool() here because mdc-dialog clobbers the attribute
+    showDialog: computed('model', {
+      get() {
+        return this.get('model') != null;
+      },
+      set(key, value) {
+        if (!value) {
+          this.set('model', null);
         }
-        dialog.addEventListener('cancel', () => {
+        return this.get('model') != null;
+      }
+    }),
+    didInsertElement() {
+        this.element.addEventListener('cancel', () => {
             this.get('model').rollbackAttributes();
         });
-        this.get('dialogService').registerWorkDialog(this);
     },
     actions: {
         uploadError: function() {
@@ -21,38 +26,33 @@ export default Component.extend({
             alert('Sorry, there was an error. Upload aborted.');
         },
         uploadProgress: function(percent) {
-            this.set('fileUploadProgress', percent);
+            this.set('fileUploadProgress', percent/100);
         },
         uploadComplete: function() {
-            this.set('fileUploadProgress', 100);
-        },
-        show: function(work) {
-            var dialog = this.$('dialog').get(0);
-            this.set('fileUploadProgress', 0);
-            this.set('model', work);
-            dialog.showModal();
+            this.set('fileUploadProgress', 1);
         },
         save: function() {
-            var dialog = this.$('dialog').get(0);
             this.get('model').save().then(() => {
-                dialog.close();
+                this.set('model', null);
+                this.set('fileUploadProgress', 0);
             });
         },
         close: function() {
-            var dialog = this.$('dialog').get(0);
             this.get('model').rollbackAttributes();
-            dialog.close();
+            this.set('model', null);
+            this.set('fileUploadProgress', 0);
         },
         delete: function() {
-            this.get('dialogService').showConfirmDialog(
+          // FIXME
+            /*this.get('dialogService').showConfirmDialog(
                 'Are you sure you want to delete ' + this.get('model').get('author') + '?',
                 this.actions.reallyDelete.bind(this)
-                );
+                );*/
 
         },
         reallyDelete: function() {
             this.get('model').destroyRecord();
-            var dialog = this.$('dialog').get(0);
+            var dialog = this.element;
             dialog.close();
         }
     }
