@@ -4,8 +4,7 @@ import { sort } from '@ember/object/computed';
 export default Controller.extend({
     actions: {
         add() {
-            var work = this.get('store').createRecord('work');
-            this.get('dialogService').showWorkDialog(work);
+            this.set('workToEdit', this.get('store').createRecord('work'));
         },
         sources(work) {
             this.transitionToRoute('work.sources', work);
