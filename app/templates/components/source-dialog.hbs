@@ -33,6 +33,11 @@
         </tr>
         <tr>
           <td>
+            {{mdc-textfield type="date" max=(moment-format (now) "YYYY-MM-DD") value=model.ordered label="Ordered Date"}}
+          </td>
+        </tr>
+        <tr>
+          <td>
             {{mdc-textarea value=model.comments label="Comments"}}
           </td>
         </tr>

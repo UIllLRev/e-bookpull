@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import config from '../config/environment';
-import { computed } from '@ember/object';
 
 export default Component.extend({
     fileUploadProgress: 0,
@@ -65,5 +64,5 @@ export default Component.extend({
             dialog.close();
         }
         }
-    },
+    }
 });

@@ -1,7 +1,7 @@
 import EmberRoute from '@ember/routing/route';
+import moment from 'moment';
 
 export default EmberRoute.extend({
-    breadCrumb: null,
     model() {
         let work = this.modelFor('work');
         return work.get('sources');
