@@ -1,4 +1,4 @@
-{{work-dialog model=workToEdit}}
+{{work-dialog model=workToEdit showDialog=showWorkDialog}}
 <table id="works">
   <thead>
     <tr>
@@ -24,7 +24,7 @@
   <tbody>
     {{#each sorted as |work|}}
       <tr>
-        <td>{{#mdc-button style="raised" click=(action (mut workToEdit) work)}} Edit {{/mdc-button}}</td>
+        <td>{{#mdc-button style="raised" click=(action "edit" work)}} Edit {{/mdc-button}}</td>
         <td>{{#mdc-button style="raised" click=(action "sources" work)}} Sources {{/mdc-button}}</td>
         <td>{{work.author}}</td>
         <td>{{work.bookpuller}}</td>

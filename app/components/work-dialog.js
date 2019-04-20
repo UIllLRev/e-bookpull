@@ -1,25 +1,10 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 
 export default Component.extend({
+    doConfirm: false,
+    deleteAccepted: null,
     fileUploadProgress: 0,
-    // Can't use bool() here because mdc-dialog clobbers the attribute
-    showDialog: computed('model', {
-      get() {
-        return this.get('model') != null;
-      },
-      set(key, value) {
-        if (!value) {
-          this.set('model', null);
-        }
-        return this.get('model') != null;
-      }
-    }),
-    didInsertElement() {
-        this.element.addEventListener('cancel', () => {
-            this.get('model').rollbackAttributes();
-        });
-    },
+    showDialog: false,
     actions: {
         uploadError: function() {
             this.set('fileUploadProgress', 0);
@@ -33,29 +18,22 @@ export default Component.extend({
         },
         save: function() {
             this.get('model').save().then(() => {
-                this.set('model', null);
                 this.set('fileUploadProgress', 0);
             }).catch(() => {
                 alert('Sorry, there was an error saving to the server. Please try again.');
             });
         },
         close: function() {
-            this.get('model').rollbackAttributes();
-            this.set('model', null);
-            this.set('fileUploadProgress', 0);
+          this.get('model').rollbackAttributes();
+          this.set('fileUploadProgress', 0);
         },
         delete: function() {
-          // FIXME
-            /*this.get('dialogService').showConfirmDialog(
-                'Are you sure you want to delete ' + this.get('model').get('author') + '?',
-                this.actions.reallyDelete.bind(this)
-                );*/
-
+          this.set('doConfirm', true);
         },
         reallyDelete: function() {
             this.get('model').destroyRecord();
-            var dialog = this.element;
-            dialog.close();
+            this.set('model', null);
+            this.set('fileUploadProgress', 0);
         }
     }
 });

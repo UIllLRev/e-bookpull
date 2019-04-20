@@ -1,4 +1,4 @@
-{{#mdc-dialog show=showDialog title="Edit Work"}}
+{{#mdc-dialog show=showDialog title="Edit Work" accepting=(action "save") close=(action "close")}}
   <form>
     <table>
       <tbody>
@@ -46,8 +46,11 @@
     </table>
   </form>
   <footer class="mdc-dialog__actions">
-    {{#mdc-dialog-button style="raised" default=true click=(action "save")}} Save {{/mdc-dialog-button}}
-    {{#mdc-dialog-button style="raised" click=(action "close")}} Cancel {{/mdc-dialog-button}}
+    {{#mdc-dialog-button style="raised" default=true action="accept"}} Save {{/mdc-dialog-button}}
+    {{#mdc-dialog-button style="raised" action="close"}} Cancel {{/mdc-dialog-button}}
     {{#mdc-dialog-button style="raised" click=(action "delete")}} <i class="material-icons">delete_forever</i> {{/mdc-dialog-button}}
   </footer>
+{{/mdc-dialog}}
+{{#mdc-dialog show=doConfirm title="Really Delete?" accept=(action "reallyDelete") acceptButtonText="Yes, Really Delete"closeButtonText="cancel"}}
+  You sure about that?
 {{/mdc-dialog}}

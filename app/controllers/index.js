@@ -5,6 +5,11 @@ export default Controller.extend({
     actions: {
         add() {
             this.set('workToEdit', this.get('store').createRecord('work'));
+            this.set('showWorkDialog', true);
+        },
+        edit(work) {
+            this.set('workToEdit', work);
+            this.set('showWorkDialog', true);
         },
         sources(work) {
             this.transitionToRoute('work.sources', work);
@@ -24,5 +29,6 @@ export default Controller.extend({
     sortOrder: 'asc',
     sortedBy: Object.freeze(['author']),
     sorted: sort('model', 'sortedBy'),
-    workToEdit: null
+    workToEdit: null,
+    showWorkDialog: false
 });
