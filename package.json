@@ -109,7 +109,6 @@
     "ember-source": "~3.9.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-uploader": "~2.0",
-    "ember-welcome-page": "^3.2.0",
     "eslint-plugin-ember": "^5.2.0",
     "git-repo-info": "~2.1",
     "loader.js": "^4.7.0",
