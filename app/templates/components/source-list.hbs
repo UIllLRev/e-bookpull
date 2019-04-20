@@ -9,12 +9,12 @@
     <col>
   </colgroup>
   <thead>
-    <th class="mdc-data-table__cell--non-numeric"></th>
-    <th class="mdc-data-table__cell--non-numeric">Citation</th>
-    <th class="mdc-data-table__cell--non-numeric">URL</th>
-    <th class="mdc-data-table__cell--non-numeric">Ordered</th>
-    <th class="mdc-data-table__cell--non-numeric">Comments</th>
-    <th class="mdc-data-table__cell--non-numeric">Status</th>
+    <th></th>
+    <th class="">Citation</th>
+    <th>URL</th>
+    <th>Ordered</th>
+    <th>Comments</th>
+    <th>Status</th>
   </thead>
   <tbody>
     {{#each category as |source|}}
@@ -22,21 +22,21 @@
         <td>
           {{#mdc-button style="raised" click=(action (mut sourceToEdit) source)}} Edit {{/mdc-button}}
         </td>
-        <td class="mdc-data-table__cell--non-numeric wraptext">
+        <td class="citation-column">
           {{source.citation}}
         </td>
-        <td class="mdc-data-table__cell--non-numeric">
+        <td>
           {{#if source.url}}
             <a href={{source.url}}>Link</a>
           {{/if}}
         </td>
-        <td class="mdc-data-table__cell--non-numeric">
+        <td>
           {{date-render source.ordered}}
         </td>
-        <td class="mdc-data-table__cell--non-numeric wraptext">
+        <td class="wraptext">
           {{source.comments}}
         </td>
-        <td class="mdc-data-table__cell--non-numeric">
+        <td>
           {{source-status source.status}}
         </td>
       </tr>

@@ -2,15 +2,10 @@ $mdc-theme-primary: #00205b;
 $mdc-theme-secondary: #e87722;
 @import '@material/theme/mdc-theme';
 
-.loading-spinner {
-    position: fixed;
-    left: 49%;
-    top: 49%;
-}
-
 .source-table {
     table-layout: fixed;
     width: 100%;
+    text-align: center;
 }
 
 #works {
@@ -35,6 +30,7 @@ $mdc-theme-secondary: #e87722;
 
 .citation-column {
     width: 40%;
+    text-align:left;
 }
 
 #title {
@@ -50,11 +46,6 @@ $mdc-theme-secondary: #e87722;
 
 [data-ember-action]:not(:disabled) {
       cursor: pointer;
-}
-
-.breadcrumb a:after {
-    content: "\27a4";
-    padding-left: 2pt;
 }
 
 .wraptext {
