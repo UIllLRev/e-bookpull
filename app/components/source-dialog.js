@@ -6,23 +6,8 @@ export default Component.extend({
     fileUploadProgress: 0,
     saveDisabled: false,
     saveButtonText: 'Save',
-    // Can't use bool() here because mdc-dialog clobbers the attribute
-    showDialog: computed('model', {
-      get() {
-        return this.get('model') != null;
-      },
-      set(key, value) {
-        if (!value) {
-          this.set('model', null);
-        }
-        return this.get('model') != null;
-      }
-    }),
-    didInsertElement() {
-        this.element.addEventListener('cancel', () => {
-            this.get('model').rollbackAttributes();
-        });
-    },
+    showDialog: false,
+
     init() {
         this._super(...arguments);
 

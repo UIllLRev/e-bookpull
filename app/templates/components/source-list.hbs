@@ -1,4 +1,4 @@
-{{source-dialog model=sourceToEdit}}
+{{source-dialog model=sourceToEdit showDialog=showSourceDialog}}
 <table class="mdc-data-table mdc-js-data-table source-table">
   <colgroup>
     <col>
@@ -20,7 +20,7 @@
     {{#each category as |source|}}
       <tr>
         <td>
-          {{#mdc-button style="raised" click=(action (mut sourceToEdit) source)}} Edit {{/mdc-button}}
+          {{#mdc-button style="raised" click=(action "edit" source)}} Edit {{/mdc-button}}
         </td>
         <td class="citation-column">
           {{source.citation}}
