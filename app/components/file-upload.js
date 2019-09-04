@@ -11,18 +11,18 @@ export default FileField.extend({
         });
         uploader.on('progress', e => {
             // eslint-disable-next-line ember/closure-actions
-            this.sendAction('progress', e.percent);
+            this.progress(e.percent);
         });
         uploader.on('didError', (jqXHR, textStatus, errorThrown) => {
             // eslint-disable-next-line ember/closure-actions
-            this.sendAction('error', jqXHR, textStatus, errorThrown);
+            this.error(jqXHR, textStatus, errorThrown);
         });
 
 
         if (!isEmpty(files)) {
             uploader.upload(files[0]).then(data => {
                 // eslint-disable-next-line ember/closure-actions
-                this.sendAction('complete', data);
+                this.complete(data);
             });
         }
     }

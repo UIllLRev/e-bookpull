@@ -23,7 +23,7 @@
         </tr>
         <tr>
           <td>
-            {{file-upload label="Upload File" endpoint="upload" work=model.work complete="uploadComplete" progress="uploadProgress" error="uploadError"}}
+            {{file-upload label="Upload File" endpoint="upload" work=model.work complete=(action "uploadComplete") progress=(action "uploadProgress") error=(action "uploadError")}}
           </td>
         </tr>
         <tr>
