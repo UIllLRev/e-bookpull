@@ -2,7 +2,6 @@ import Component from '@ember/component';
 
 export default Component.extend({
     doConfirm: false,
-    deleteAccepted: null,
     fileUploadProgress: 0,
     showDialog: false,
     actions: {
