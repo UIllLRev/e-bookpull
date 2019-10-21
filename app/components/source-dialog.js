@@ -67,6 +67,17 @@ export default Component.extend({
             var dialog = this.$('dialog').get(0);
             this.get('model').rollbackAttributes();
             dialog.close();
+        },
+        delete: function() {
+            this.get('dialogService').showConfirmDialog(
+                'Are you sure you want to delete ' + this.get('model').get('citation') + '?',
+                this.actions.reallyDelete.bind(this)
+                );
+        },
+        reallyDelete: function() {
+            this.get('model').destroyRecord();
+            var dialog = this.$('dialog').get(0);
+            dialog.close();
         }
     },
 });
