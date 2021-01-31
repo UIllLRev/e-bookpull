@@ -17,7 +17,7 @@
   },
   "repository": "https://github.com/UIllLRev/e-bookpull.git",
   "engines": {
-    "node": "8.16.1",
+    "node": "10.20.1",
     "yarn": ">= 1.0.0"
   },
   "devDependencies": {
