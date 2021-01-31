@@ -4,9 +4,9 @@ import { belongsTo } from 'ember-data/relationships';
 
 export default Model.extend({
     type: attr('string'),
-    citation: attr('string'),
+    citation: attr('base64'),
     url: attr('string'),
-    comments: attr('string'),
+    comments: attr('base64'),
     ordered: attr('date'),
     status: attr('string'),
     work: belongsTo('work')
