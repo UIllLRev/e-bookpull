@@ -30,16 +30,5 @@ module.exports = function(defaults) {
     app.import(app.bowerDirectory + '/dialog-polyfill/dialog-polyfill.css');
     app.import(app.bowerDirectory + '/dialog-polyfill/dialog-polyfill.js');
 
-    app.import('node_modules/@sentry/browser/dist/index.js', {
-        using: [
-            { transformation: 'cjs', as: '@sentry/browser' }
-        ]
-    });
-    app.import('node_modules/@sentry/integrations/dist/index.js', {
-        using: [
-            { transformation: 'cjs', as: '@sentry/integrations' }
-        ]
-    });
-
     return app.toTree();
 };

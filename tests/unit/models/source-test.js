@@ -13,9 +13,9 @@ module('Unit | Model | source', function(hooks) {
     let Source = store.modelFor('source');
     let attributes = get(Source, 'attributes');
     assert.equal(attributes.get('type').type, 'string', 'type is a string');
-    assert.equal(attributes.get('citation').type, 'string', 'citation is a string');
+    assert.equal(attributes.get('citation').type, 'base64', 'citation is a base64');
     assert.equal(attributes.get('url').type, 'string', 'url is a string');
-    assert.equal(attributes.get('comments').type, 'string', 'comments is a string');
+    assert.equal(attributes.get('comments').type, 'base64', 'comments is a base64');
     assert.equal(attributes.get('ordered').type, 'date', 'ordered is a date');
     assert.equal(attributes.get('status').type, 'string', 'status is a string');
   });
