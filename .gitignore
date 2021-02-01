@@ -16,6 +16,5 @@
 /connect.lock
 /coverage/*
 /libpeerconnection.log
-/yarn.lock
 npm-debug.log
 testem.log
