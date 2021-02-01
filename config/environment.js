@@ -13,6 +13,20 @@ module.exports = function(environment) {
       }
     },
 
+    "@sentry/ember": {
+      sentry: {
+        dsn: 'https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958',
+        environment,
+        beforeSend: function (event) {
+          if (event.exception) {
+            Sentry.showReportDialog();
+          }
+
+          return event;
+        }
+      }
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
