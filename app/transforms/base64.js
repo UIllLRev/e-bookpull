@@ -5,7 +5,7 @@ export default DS.Transform.extend({
       if (deserialized !== null) {
         return {
           "encoding": "base64",
-          "data": btoa(deserialized)
+          "data": btoa(encodeURIComponent(deserialized).replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode('0x' + p1)))
         };
       }
       return deserialized;
