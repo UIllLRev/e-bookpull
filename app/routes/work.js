@@ -5,18 +5,22 @@ export default EmberRoute.extend({
         return this.store.findRecord('work', params.work_id);
     },
     afterModel(model) {
-        const author = model.get('author');
+        if (model) {
+            const author = model.get('author');
 
-        const crumbs = [{
-            title: 'Home',
-            path: 'index',
-            linkable: true
-        },
-        {
-            title: author,
-            linkable: false
-        }];
+            const crumbs = [
+                {
+                    title: 'Home',
+                    path: 'index',
+                    linkable: true
+                },
+                {
+                    title: author,
+                    linkable: false
+                }
+            ];
 
-        this.set('breadCrumbs', crumbs);
+            this.set('breadCrumbs', crumbs);
+        }
     }
 });
