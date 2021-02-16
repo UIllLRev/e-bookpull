@@ -1,5 +1,7 @@
 /* jshint node: true */
 
+var gitRepoInfo = require('git-repo-info');
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ebookpull',
@@ -16,6 +18,7 @@ module.exports = function(environment) {
     "@sentry/ember": {
       sentry: {
         dsn: 'https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958',
+        release: gitRepoInfo().sha,
         environment,
         beforeSend: function (event) {
           if (event.exception) {
