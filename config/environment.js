@@ -6,7 +6,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'ebookpull',
     environment: environment,
-    rootURL: '/members/bookpull/',
+    rootURL: '/bookpull/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -37,6 +37,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+    ENV.rootURL = '/members/bookpull/';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;

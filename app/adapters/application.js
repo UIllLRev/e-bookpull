@@ -1,7 +1,8 @@
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
+import config from '../config/environment';
 
 export default JSONAPIAdapter.extend({
-    namespace: 'members/bookpull/api/2',
+    namespace: config.rootURL.substring(1) + 'api/2',
     buildQuery(snapshot) {
         let query = {};
         if (snapshot) {
