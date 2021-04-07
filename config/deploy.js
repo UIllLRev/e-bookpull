@@ -6,7 +6,7 @@ module.exports = function(deployTarget) {
   var ENV = {
     build: {},
     sentry: {
-        publicUrl: '~/members/bookpull',
+        publicUrl: '~/bookpull',
         repository: process.env.REPOSITORY,
         revisionKey: gitRepoInfo().sha,
         sentryUrl: 'https://sentry.io',
@@ -18,6 +18,7 @@ module.exports = function(deployTarget) {
   };
 
   if (deployTarget === 'development') {
+    ENV.sentry.publicUrl = '~/members/bookpull';
     ENV.build.environment = 'development';
       ENV['scp'] = {
           nodes: [{
@@ -41,7 +42,7 @@ module.exports = function(deployTarget) {
           nodes: [{
               username: 'ilr',
               host: 'chain-lightning.dreamhost.com',
-              path: 'illinoislawreview.org/members/bookpull'
+              path: 'members.illinoislawreview.org/bookpull'
           }]
       };
   }
