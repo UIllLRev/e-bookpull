@@ -1,15 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from "@ember/test-helpers";
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('source-dialog', 'Integration | Component | source dialog', {
-  integration: true
-});
+module('source-dialog', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{source-dialog}}`);
+    await render(hbs`{{source-dialog}}`);
 
-  assert.equal(this.$('.mdl-dialog__title').text().trim(), 'Edit Source');
+    assert.equal(this.element.querySelector('.mdl-dialog__title').innerText.trim(), 'Edit Source');
+  });
 });
