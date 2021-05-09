@@ -1,15 +1,17 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from "@ember/test-helpers";
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('source-list', 'Integration | Component | source list', {
-  integration: true
-});
+module('source-list', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{source-list}}`);
+    await render(hbs`{{source-list}}`);
 
-  assert.equal(this.$('.citation-column').text().trim(), '');
+    assert.equal(this.element.querySelector('.citation-column').innerText.trim(), '');
+  });
 });
