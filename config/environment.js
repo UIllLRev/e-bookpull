@@ -19,14 +19,7 @@ module.exports = function(environment) {
       sentry: {
         dsn: 'https://14dda427f59c4ec68fbe4a4a93998506@sentry.io/110958',
         release: gitRepoInfo().sha,
-        environment,
-        beforeSend: function (event) {
-          if (event.exception) {
-            Sentry.showReportDialog();
-          }
-
-          return event;
-        }
+        environment
       }
     },
 
