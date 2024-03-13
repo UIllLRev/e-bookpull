@@ -1,7 +1,10 @@
-# Ebookpull
+# e-Bookpull
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This repository contains the Javascript frontend, using the Ember framework,
+for the e-Bookpull application built by [Matt Loar](https://github.com/mloar).
+
+:rotating_light: This application is no longer being maintained and may contain
+vulnerabilities. Use at your own risk. :rotating_light:
 
 ## Prerequisites
 
